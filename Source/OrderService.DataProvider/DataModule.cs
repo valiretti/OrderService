@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Autofac;
+using OrderService.DataProvider.Repositories;
 
 namespace OrderService.DataProvider
 {
@@ -16,6 +17,16 @@ namespace OrderService.DataProvider
 
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CommitProvider>()
+                .As<ICommitProvider>()
+                .InstancePerLifetimeScope();
+
+            base.Load(builder);
         }
     }
 }

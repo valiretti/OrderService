@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +29,9 @@ namespace OrderService.Website
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            string userConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(userConnectionString,
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString,
                 sql => sql.MigrationsAssembly(typeof(ApplicationContext).Assembly.GetName().Name)));
 
             services.AddIdentity<User, IdentityRole>(opt =>
@@ -56,7 +57,8 @@ namespace OrderService.Website
 
             var identityBuilder = services.AddIdentityServer()
                 .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients());
+                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources());
 
             identityBuilder.AddAspNetIdentity<User>().AddDeveloperSigningCredential();
 
@@ -66,14 +68,33 @@ namespace OrderService.Website
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddAuthentication(opt =>
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "http://localhost:55340";
+                    options.RequireHttpsMetadata = false;
+
+                    options.Audience = "api";
+                });
+
+            services.AddCors(options =>
             {
-                opt.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                opt.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
             });
 
             var builder = new ContainerBuilder();
+
+            builder.RegisterModule(new DataModule(connectionString));
+            builder.RegisterModule<MapperModule>();
 
             builder.Populate(services);
             var container = builder.Build();
@@ -97,6 +118,7 @@ namespace OrderService.Website
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseCors("default");
             app.UseAuthentication();
 
             app.UseMvc(routes =>

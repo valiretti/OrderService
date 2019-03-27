@@ -4,7 +4,7 @@ using IdentityServer4.Models;
 
 namespace OrderService.Website.Auth
 {
-    public class Config
+    public static class Config
     {
         public const string ApiName = "api";
 
@@ -22,7 +22,8 @@ namespace OrderService.Website.Auth
             {
                 new Client
                 {
-                    ClientId = "client",
+                    ClientId = "angular",
+                    ClientName = "Angular Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = {new Secret("secret".Sha256())},
 
@@ -33,10 +34,24 @@ namespace OrderService.Website.Auth
                         IdentityServerConstants.StandardScopes.Email,
                         ApiName
                     },
-                    AllowOfflineAccess = true
+                    AllowOfflineAccess = true,
+                    AllowAccessTokensViaBrowser = true,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    RedirectUris = { "http://localhost:4200/sign-in" },
+                    PostLogoutRedirectUris = { "http://localhost:4200/sign-out" }
                 }
             };
         }
 
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
+            };
+        }
     }
 }

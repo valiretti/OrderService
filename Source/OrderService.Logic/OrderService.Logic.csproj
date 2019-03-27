@@ -6,10 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="FluentValidation" Version="8.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OrderService.DataProvider\OrderService.DataProvider.csproj" />
+    <ProjectReference Include="..\OrderService.Model\OrderService.Model.csproj" />
   </ItemGroup>
 
 </Project>
