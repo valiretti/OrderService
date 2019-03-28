@@ -129,6 +129,27 @@ namespace OrderService.DataProvider.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("OrderService.DataProvider.Entities.CustomerRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerUserId");
+
+                    b.Property<int>("ExecutorId");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int>("OrderId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutorId");
+
+                    b.ToTable("CustomerRequests");
+                });
+
             modelBuilder.Entity("OrderService.DataProvider.Entities.Executor", b =>
                 {
                     b.Property<int>("Id")
@@ -137,22 +158,44 @@ namespace OrderService.DataProvider.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("FullName");
-
                     b.Property<string>("OrganizationName");
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
-                    b.Property<int>("WorkTypeId");
+                    b.Property<int?>("WorkTypeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.HasIndex("WorkTypeId");
 
                     b.ToTable("Executors");
+                });
+
+            modelBuilder.Entity("OrderService.DataProvider.Entities.ExecutorRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerUserId");
+
+                    b.Property<int>("ExecutorId");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int>("OrderId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutorId");
+
+                    b.ToTable("ExecutorRequests");
                 });
 
             modelBuilder.Entity("OrderService.DataProvider.Entities.Order", b =>
@@ -169,9 +212,9 @@ namespace OrderService.DataProvider.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("ExecutorId");
+                    b.Property<int?>("ExecutorId");
 
-                    b.Property<DateTime>("FinishDate");
+                    b.Property<DateTime?>("FinishDate");
 
                     b.Property<string>("Location");
 
@@ -179,9 +222,11 @@ namespace OrderService.DataProvider.Migrations
 
                     b.Property<decimal?>("Price");
 
-                    b.Property<int>("WorkTypeId");
+                    b.Property<int?>("WorkTypeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerUserId");
 
                     b.HasIndex("ExecutorId");
 
@@ -196,9 +241,9 @@ namespace OrderService.DataProvider.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ExecutorId");
+                    b.Property<int?>("ExecutorId");
 
-                    b.Property<int>("OrderId");
+                    b.Property<int?>("OrderId");
 
                     b.Property<string>("PhotoPath");
 
@@ -225,6 +270,10 @@ namespace OrderService.DataProvider.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -320,25 +369,50 @@ namespace OrderService.DataProvider.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("OrderService.DataProvider.Entities.CustomerRequest", b =>
+                {
+                    b.HasOne("OrderService.DataProvider.Entities.Executor", "Executor")
+                        .WithMany("CustomerRequests")
+                        .HasForeignKey("ExecutorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("OrderService.DataProvider.Entities.Executor", b =>
                 {
+                    b.HasOne("OrderService.DataProvider.Entities.User", "User")
+                        .WithOne("Executor")
+                        .HasForeignKey("OrderService.DataProvider.Entities.Executor", "UserId");
+
                     b.HasOne("OrderService.DataProvider.Entities.WorkType", "WorkType")
                         .WithMany("Executors")
                         .HasForeignKey("WorkTypeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("OrderService.DataProvider.Entities.ExecutorRequest", b =>
+                {
+                    b.HasOne("OrderService.DataProvider.Entities.Executor", "Executor")
+                        .WithMany("ExecutorRequests")
+                        .HasForeignKey("ExecutorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("OrderService.DataProvider.Entities.Order", b =>
                 {
+                    b.HasOne("OrderService.DataProvider.Entities.User", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("OrderService.DataProvider.Entities.Executor", "Executor")
                         .WithMany("Orders")
                         .HasForeignKey("ExecutorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("OrderService.DataProvider.Entities.WorkType", "WorkType")
                         .WithMany("Orders")
                         .HasForeignKey("WorkTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("OrderService.DataProvider.Entities.Photo", b =>
