@@ -27,6 +27,8 @@ namespace OrderService.DataProvider
             modelBuilder.Entity<Executor>().ToTable("Executors");
             modelBuilder.Entity<WorkType>().ToTable("WorkTypes");
             modelBuilder.Entity<Photo>().ToTable("Photos");
+            modelBuilder.Entity<ExecutorRequest>().ToTable("ExecutorRequests");
+            modelBuilder.Entity<CustomerRequest>().ToTable("CustomerRequests");
 
             var orderEntity = modelBuilder.Entity<Order>();
             orderEntity
@@ -35,32 +37,55 @@ namespace OrderService.DataProvider
                 .HasForeignKey(o => o.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            orderEntity
+                .HasOne(o => o.Customer)
+                .WithMany(p => p.Orders)
+                .HasForeignKey(o => o.CustomerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             var workTypeEntity = modelBuilder.Entity<WorkType>();
             workTypeEntity
                 .HasMany(x => x.Orders)
                 .WithOne(x => x.WorkType)
                 .HasForeignKey(x => x.WorkTypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             workTypeEntity
                 .HasMany(x => x.Executors)
                 .WithOne(x => x.WorkType)
                 .HasForeignKey(x => x.WorkTypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             var executorEntity = modelBuilder.Entity<Executor>();
-            executorEntity.Property(e => e.UserId).IsRequired();
-            executorEntity
+           executorEntity
                 .HasMany(x => x.Orders)
                 .WithOne(x => x.Executor)
                 .HasForeignKey(x => x.ExecutorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             executorEntity
                 .HasMany(x => x.Photos)
                 .WithOne(x => x.Executor)
                 .HasForeignKey(x => x.ExecutorId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            executorEntity
+                .HasMany(x => x.ExecutorRequests)
+                .WithOne(x => x.Executor)
+                .HasForeignKey(x => x.ExecutorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            executorEntity
+                .HasMany(x => x.CustomerRequests)
+                .WithOne(x => x.Executor)
+                .HasForeignKey(x => x.ExecutorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder
+                .Entity<User>()
+                .HasOne(u => u.Executor)
+                .WithOne(e => e.User)
+                .HasForeignKey<Executor>(u => u.UserId);
         }
     }
 }

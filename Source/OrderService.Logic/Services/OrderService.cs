@@ -13,21 +13,24 @@ namespace OrderService.Logic.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<Order> _repository;
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<Photo> _photoRepository;
         private readonly ICommitProvider _commitProvider;
         private readonly IValidator<Order> _validator;
         private readonly IMapper _mapper;
 
-        public OrderService(IRepository<Order> repository, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
+        public OrderService(IRepository<Order> orderRepository, IRepository<Photo> photoRepository, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
         {
-            _repository = repository;
+            _orderRepository = orderRepository;
+            _photoRepository = photoRepository;
             _commitProvider = commitProvider;
             _validator = validator;
             _mapper = mapper;
         }
 
-        public async Task<Order> Create(Order order)
+        public async Task<Order> Create(CreateOrderModel item)
         {
+            var order = _mapper.Map<Order>(item);
             var result = _validator.Validate(order);
             if (!result.IsValid)
             {
@@ -35,54 +38,124 @@ namespace OrderService.Logic.Services
             }
 
             order.CreationDate = DateTime.UtcNow;
-            await _repository.Create(order);
+
+            AddPhotos(item, order);
+
+            await _orderRepository.Create(order);
             await _commitProvider.SaveAsync();
 
             return order;
         }
 
-        public async Task Update(Order item)
+        public async Task Update(UpdateOrderModel item)
         {
-            var order = _repository.GetAll().SingleOrDefault(o => o.Id == item.Id);
+            var order = _orderRepository.GetAll().SingleOrDefault(o => o.Id == item.Id);
             if (order == null)
             {
                 throw new ValidationException("The order doesn't exist");
             }
 
-            var result = _validator.Validate(order);
+            var newOrder = _mapper.Map<Order>(item);
+
+            var result = _validator.Validate(newOrder);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
             }
 
-            _repository.Update(item);
+            AddPhotos(item, newOrder);
+
+            _orderRepository.Update(newOrder);
 
             await _commitProvider.SaveAsync();
         }
 
         public async Task<OrderPage> GetPage(int pageNumber, int pageSize)
         {
-           var orders = await _repository.GetAll()
+            var orders = await _orderRepository.GetAll()
+                .Include(o => o.Photos)
+                .Include(o => o.WorkType)
+                .Where(o => o.ExecutorId == null)
+                 .OrderBy(x => x.CreationDate)
+                 .Skip(pageNumber * pageSize)
+                 .Take(pageSize)
+                 .ToListAsync();
+            var totalCount = await _orderRepository.GetAll().CountAsync();
+
+            return new OrderPage
+            {
+                Orders = _mapper.Map<IEnumerable<OrderPageViewModel>>(orders),
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<OrderViewModel> Get(int id)
+        {
+            var order = await _orderRepository.GetAll()
+                .Include(o => o.WorkType)
+                .Include(o => o.Photos)
+                .Include(o => o.Executor)
+                .Include(o => o.Customer)
+                .SingleOrDefaultAsync(o => o.Id == id);
+
+            return order == null ? null : _mapper.Map<OrderViewModel>(order);
+        }
+
+        public async Task<OrderPage> GetPageByCustomerId(int pageNumber, int pageSize, string customerId)
+        {
+            var orders = await _orderRepository.GetAll()
+                .Include(o => o.Photos)
+                .Include(o => o.WorkType)
+                .Where(x => x.CustomerUserId == customerId)
                 .OrderBy(x => x.CreationDate)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-           var totalCount = await _repository.GetAll().CountAsync();
+            var totalCount = await _orderRepository.GetAll().Where(x => x.CustomerUserId == customerId).CountAsync();
 
-           return new OrderPage
-           {
-               Orders = _mapper.Map<IEnumerable<OrderViewModel>>(orders),
-               TotalCount = totalCount
-           };
+            return new OrderPage
+            {
+                Orders = _mapper.Map<IEnumerable<OrderPageViewModel>>(orders),
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task AppointExecutor(int executorId, int orderId, string customerId)
+        {
+            var order = await _orderRepository.GetAll()
+                .SingleOrDefaultAsync(o => o.CustomerUserId == customerId && o.Id == orderId);
+            if (order == null)
+            {
+                throw new ValidationException("The order doesn't exist");
+            }
+
+            order.ExecutorId = executorId;
+            await _commitProvider.SaveAsync();
         }
 
         public async Task Delete(int id)
         {
-            var order = _repository.GetAll().SingleOrDefault(o => o.Id == id);
-            if (order != null)
+            var order = _orderRepository.GetAll().SingleOrDefault(o => o.Id == id);
+            if (order == null)
             {
-                await _repository.Delete(id);
-                await _commitProvider.SaveAsync();
+                throw new ValidationException("The order doesn't exist");
+            }
+
+            await _orderRepository.Delete(id);
+            await _commitProvider.SaveAsync();
+        }
+
+        private void AddPhotos(CreateOrderModel item, Order order)
+        {
+            if (item.PhotoPaths != null)
+            {
+                foreach (var photoPath in item.PhotoPaths)
+                {
+                    order.Photos.Add(new Photo
+                    {
+                        PhotoPath = photoPath
+                    });
+                }
             }
         }
     }

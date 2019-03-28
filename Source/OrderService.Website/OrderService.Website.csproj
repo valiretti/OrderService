@@ -23,6 +23,7 @@
 
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrderService.Logic\OrderService.Logic.csproj" />
+    <ProjectReference Include="..\OrderService.Model\OrderService.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

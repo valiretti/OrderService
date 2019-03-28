@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrderService.DataProvider;
 using OrderService.DataProvider.Entities;
 using OrderService.Website.Auth;
+using OrderService.Website.Filters;
 
 namespace OrderService.Website
 {
@@ -33,6 +34,14 @@ namespace OrderService.Website
 
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString,
                 sql => sql.MigrationsAssembly(typeof(ApplicationContext).Assembly.GetName().Name)));
+
+            var o = new DbContextOptionsBuilder<ApplicationContext>();
+            o.UseSqlServer(connectionString);
+
+            using (var ctx = new ApplicationContext(o.Options))
+            {
+                ctx.Database.Migrate();
+            }
 
             services.AddIdentity<User, IdentityRole>(opt =>
                 {
@@ -53,7 +62,8 @@ namespace OrderService.Website
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(opt => opt.Filters.Add<ValidationFilter>())
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var identityBuilder = services.AddIdentityServer()
                 .AddInMemoryApiResources(Config.GetApis())

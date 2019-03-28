@@ -10,11 +10,17 @@ namespace OrderService.Logic.Services
 {
     public interface IOrderService
     {
-        Task<Order> Create(Order order);
+        Task<Order> Create(CreateOrderModel item);
 
-        Task Update(Order order);
+        Task Update(UpdateOrderModel order);
 
         Task<OrderPage> GetPage(int pageNumber, int pageSize);
+
+        Task<OrderViewModel> Get(int id);
+
+        Task<OrderPage> GetPageByCustomerId(int pageNumber, int pageSize, string customerId);
+
+        Task AppointExecutor(int executorId, int orderId, string customerId);
 
         Task Delete(int id);
     }
