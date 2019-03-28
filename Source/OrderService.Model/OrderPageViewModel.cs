@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using OrderService.DataProvider.Entities;
 
 namespace OrderService.Model
 {
-    public class OrderViewModel
+    public class OrderPageViewModel
     {
         public int Id { get; set; }
 
-        public string ExecutorName { get; set; }
-
-        public string CustomerName { get; set; }
-
-        public string CustomerPhoneNumber { get; set; }
-
         public DateTime CreationDate { get; set; }
 
-        public DateTime? FinishDate { get; set; }
+        public DateTime FinishDate { get; set; }
 
         public string Location { get; set; }
 
@@ -27,7 +19,7 @@ namespace OrderService.Model
 
         public string Description { get; set; }
 
-        public ICollection<Photo> Photos { get; set; }
+        public Photo Photo { get; set; }
 
         public string WorkTypeName { get; set; }
     }

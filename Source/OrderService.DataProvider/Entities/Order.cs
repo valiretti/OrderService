@@ -7,16 +7,17 @@ namespace OrderService.DataProvider.Entities
     {
         public int Id { get; set; }
 
-        public int ExecutorId { get; set; }
+        public int? ExecutorId { get; set; }
         public Executor Executor { get; set; }
 
         public string CustomerUserId { get; set; }
+        public User Customer { get; set; }
 
         public string CustomerPhoneNumber { get; set; }
         
         public DateTime CreationDate { get; set; }
 
-        public DateTime FinishDate { get; set; }
+        public DateTime? FinishDate { get; set; }
 
         public string Location { get; set; }
 
@@ -28,7 +29,7 @@ namespace OrderService.DataProvider.Entities
 
         public ICollection<Photo> Photos { get; set; }
 
-        public int WorkTypeId { get; set; }
+        public int? WorkTypeId { get; set; }
         public WorkType WorkType { get; set; }
     }
 }
