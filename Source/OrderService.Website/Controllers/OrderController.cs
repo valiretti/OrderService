@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using IdentityServer4.Extensions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Logic.Services;
 using OrderService.Model;
@@ -14,19 +11,15 @@ namespace OrderService.Website.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        private readonly IHostingEnvironment _appEnvironment;
 
-        public OrderController(IOrderService orderService, IHostingEnvironment appEnvironment)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
-            _appEnvironment = appEnvironment;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOrderModel request)
         {
-            await AddPhotoPaths(request);
-
             request.CustomerUserId = User.GetSubjectId();
             var order = await _orderService.Create(request);
 
@@ -36,9 +29,7 @@ namespace OrderService.Website.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateOrderModel request)
         {
-            await AddPhotoPaths(request);
             request.CustomerUserId = User.GetSubjectId();
-
             await _orderService.Update(request);
 
             return NoContent();
@@ -87,26 +78,7 @@ namespace OrderService.Website.Controllers
 
             return NoContent();
         }
-
-        private async Task AddPhotoPaths(CreateOrderModel request)
-        {
-            if (request.Photos != null)
-            {
-                foreach (var photo in request.Photos)
-                {
-                    var path = $"{Guid.NewGuid():N}{Path.GetExtension(photo.FileName)}";
-                    var imagePath = "/Files/" + path;
-
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
-                    {
-                        await photo.CopyToAsync(fileStream);
-                    }
-
-                    request.PhotoPaths.Add(imagePath);
-                }
-            }
-        }
-
+        
         private bool CheckPageParameters(int page, int count, out IActionResult actionResult)
         {
             if (page < 0)

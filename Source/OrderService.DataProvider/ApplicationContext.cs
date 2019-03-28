@@ -44,6 +44,7 @@ namespace OrderService.DataProvider
                 .OnDelete(DeleteBehavior.Cascade);
 
             var workTypeEntity = modelBuilder.Entity<WorkType>();
+            workTypeEntity.HasIndex(x => x.Name).IsUnique();
             workTypeEntity
                 .HasMany(x => x.Orders)
                 .WithOne(x => x.WorkType)

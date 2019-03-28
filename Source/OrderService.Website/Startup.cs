@@ -62,7 +62,7 @@ namespace OrderService.Website
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc(opt => opt.Filters.Add<ValidationFilter>())
+            services.AddMvc(opt => opt.Filters.Add(new GlobalExeptionFilter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var identityBuilder = services.AddIdentityServer()

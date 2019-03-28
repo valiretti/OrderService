@@ -27,7 +27,7 @@ namespace OrderService.Logic.Services
 
         public async Task Create(WorkTypeViewModel workType)
         {
-            await CheckWorkType(workType);
+            CheckWorkType(workType);
             await _repository.Create(new WorkType
             {
                 Name = workType.Name
@@ -44,7 +44,7 @@ namespace OrderService.Logic.Services
                 throw new ValidationException("The work type doesn't exist");
             }
 
-            await CheckWorkType(workType);
+            CheckWorkType(workType);
             type.Name = workType.Name;
             await _commitProvider.SaveAsync();
         }
@@ -67,18 +67,12 @@ namespace OrderService.Logic.Services
             await _commitProvider.SaveAsync();
         }
 
-        private async Task CheckWorkType(WorkTypeViewModel workType)
+        private void CheckWorkType(WorkTypeViewModel workType)
         {
             var result = _validator.Validate(workType);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
-            }
-
-            var type = await _repository.GetAll().SingleOrDefaultAsync(w => w.Name == workType.Name);
-            if (type != null)
-            {
-                throw new ValidationException("The work type already exists");
             }
         }
 

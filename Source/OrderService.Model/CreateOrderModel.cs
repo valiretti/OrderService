@@ -15,8 +15,6 @@ namespace OrderService.Model
 
         public IFormFileCollection Photos { get; set; }
 
-        public IList<string> PhotoPaths { get; set; }
-
         public string Location { get; set; }
 
         public DateTime? FinishDate { get; set; }

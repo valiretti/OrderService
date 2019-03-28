@@ -19,7 +19,7 @@ namespace OrderService.Model
 
         public string Description { get; set; }
 
-        public Photo Photo { get; set; }
+        public string PhotoPath { get; set; }
 
         public string WorkTypeName { get; set; }
     }

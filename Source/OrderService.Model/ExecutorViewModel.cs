@@ -15,7 +15,7 @@ namespace OrderService.Model
 
         public string Description { get; set; }
 
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<string> PhotoPaths { get; set; }
 
         public string WorkTypeName { get; set; }
     }

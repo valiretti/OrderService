@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataProvider.Entities;
 using OrderService.DataProvider.Repositories;
@@ -14,15 +16,15 @@ namespace OrderService.Logic.Services
     public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<Photo> _photoRepository;
+        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ICommitProvider _commitProvider;
         private readonly IValidator<Order> _validator;
         private readonly IMapper _mapper;
 
-        public OrderService(IRepository<Order> orderRepository, IRepository<Photo> photoRepository, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
+        public OrderService(IRepository<Order> orderRepository, IHostingEnvironment hostingEnvironment, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
         {
             _orderRepository = orderRepository;
-            _photoRepository = photoRepository;
+            _hostingEnvironment = hostingEnvironment;
             _commitProvider = commitProvider;
             _validator = validator;
             _mapper = mapper;
@@ -39,8 +41,7 @@ namespace OrderService.Logic.Services
 
             order.CreationDate = DateTime.UtcNow;
 
-            AddPhotos(item, order);
-
+            await AddPhotos(item, order);
             await _orderRepository.Create(order);
             await _commitProvider.SaveAsync();
 
@@ -63,10 +64,8 @@ namespace OrderService.Logic.Services
                 throw new ValidationException(result.Errors);
             }
 
-            AddPhotos(item, newOrder);
-
+            await AddPhotos(item, newOrder);
             _orderRepository.Update(newOrder);
-
             await _commitProvider.SaveAsync();
         }
 
@@ -145,15 +144,23 @@ namespace OrderService.Logic.Services
             await _commitProvider.SaveAsync();
         }
 
-        private void AddPhotos(CreateOrderModel item, Order order)
+        private async Task AddPhotos(CreateOrderModel item, Order order)
         {
-            if (item.PhotoPaths != null)
+            if (item.Photos != null)
             {
-                foreach (var photoPath in item.PhotoPaths)
+                foreach (var photo in item.Photos)
                 {
+                    var path = $"{Guid.NewGuid():N}{Path.GetExtension(photo.FileName)}";
+                    var imagePath = "/Files/" + path;
+
+                    using (var fileStream = new FileStream(_hostingEnvironment.WebRootPath + imagePath, FileMode.Create))
+                    {
+                        await photo.CopyToAsync(fileStream);
+                    }
+
                     order.Photos.Add(new Photo
                     {
-                        PhotoPath = photoPath
+                        PhotoPath = imagePath
                     });
                 }
             }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataProvider.Entities;
 using OrderService.DataProvider.Repositories;
@@ -14,13 +16,15 @@ namespace OrderService.Logic.Services
     public class ExecutorService : IExecutorService
     {
         private readonly IRepository<Executor> _repository;
+        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ICommitProvider _commitProvider;
         private readonly IValidator<Executor> _validator;
         private readonly IMapper _mapper;
 
-        public ExecutorService(IRepository<Executor> repository, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
+        public ExecutorService(IRepository<Executor> repository, IHostingEnvironment hostingEnvironment, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
         {
             _repository = repository;
+            _hostingEnvironment = hostingEnvironment;
             _commitProvider = commitProvider;
             _validator = validator;
             _mapper = mapper;
@@ -35,8 +39,7 @@ namespace OrderService.Logic.Services
                 throw new ValidationException(result.Errors);
             }
 
-            AddPhotos(item, executor);
-
+            await AddPhotos(item, executor);
             await _repository.Create(executor);
             await _commitProvider.SaveAsync();
 
@@ -59,10 +62,8 @@ namespace OrderService.Logic.Services
                 throw new ValidationException(result.Errors);
             }
 
-            AddPhotos(item, newExecutor);
-
+            await AddPhotos(item, newExecutor);
             _repository.Update(newExecutor);
-
             await _commitProvider.SaveAsync();
         }
 
@@ -110,15 +111,23 @@ namespace OrderService.Logic.Services
             await _commitProvider.SaveAsync();
         }
 
-        private void AddPhotos(CreateExecutorModel item, Executor executor)
+        private async Task AddPhotos(CreateExecutorModel item, Executor executor)
         {
-            if (item.PhotoPaths != null)
+            if (item.Photos != null)
             {
-                foreach (var photoPath in item.PhotoPaths)
+                foreach (var photo in item.Photos)
                 {
+                    var path = $"{Guid.NewGuid():N}{Path.GetExtension(photo.FileName)}";
+                    var imagePath = "/Files/" + path;
+
+                    using (var fileStream = new FileStream(_hostingEnvironment.WebRootPath + imagePath, FileMode.Create))
+                    {
+                        await photo.CopyToAsync(fileStream);
+                    }
+
                     executor.Photos.Add(new Photo
                     {
-                        PhotoPath = photoPath
+                        PhotoPath = imagePath
                     });
                 }
             }

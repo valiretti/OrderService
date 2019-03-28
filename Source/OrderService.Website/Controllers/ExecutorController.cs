@@ -14,19 +14,15 @@ namespace OrderService.Website.Controllers
     public class ExecutorController : ControllerBase
     {
         private readonly IExecutorService _executorService;
-        private readonly IHostingEnvironment _appEnvironment;
 
-        public ExecutorController(IExecutorService executorService, IHostingEnvironment appEnvironment)
+        public ExecutorController(IExecutorService executorService)
         {
             _executorService = executorService;
-            _appEnvironment = appEnvironment;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExecutorModel request)
         {
-            await AddPhotoPaths(request);
-
             request.UserId = User.GetSubjectId();
             var order = await _executorService.Create(request);
 
@@ -36,9 +32,7 @@ namespace OrderService.Website.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateExecutorModel request)
         {
-            await AddPhotoPaths(request);
             request.UserId = User.GetSubjectId();
-
             await _executorService.Update(request);
 
             return NoContent();
@@ -68,25 +62,6 @@ namespace OrderService.Website.Controllers
             var executors = await _executorService.GetPage(page, count);
 
             return executors.TotalCount > 0 ? (IActionResult)Ok(executors) : NotFound();
-        }
-
-        private async Task AddPhotoPaths(CreateExecutorModel request)
-        {
-            if (request.Photos != null)
-            {
-                foreach (var photo in request.Photos)
-                {
-                    var path = $"{Guid.NewGuid():N}{Path.GetExtension(photo.FileName)}";
-                    var imagePath = "/Files/" + path;
-
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
-                    {
-                        await photo.CopyToAsync(fileStream);
-                    }
-
-                    request.PhotoPaths.Add(imagePath);
-                }
-            }
         }
 
         private bool CheckPageParameters(int page, int count, out IActionResult actionResult)
