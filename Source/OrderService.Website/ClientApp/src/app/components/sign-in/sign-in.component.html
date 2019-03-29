@@ -1,0 +1,19 @@
+<h1>LOG IN</h1>
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="inputEmail">Email</label>
+    <input type="text" class="form-control" id="inputEmail" formControlName="email" />
+  </div>
+  <div class="form-group">
+    <label for="inputPassword">Password</label>
+    <input type="text" class="form-control" id="inputPassword" formControlName="password" />
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-act btn-full col-6 mx-auto" [disabled]="loading">LOG IN</button>
+  </div>
+</form>
+<div>
+  <a class="btn btn-link secondary-call-to-action-btn mr-4" [routerLink]="['/create-account']">
+    Don't have an Account yet?
+  </a>
+</div>

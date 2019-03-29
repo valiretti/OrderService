@@ -1,14 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {AppRoutingModule} from './app-routing.modules'
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { HomeComponent } from './components/home/home.component';
+import { CounterComponent } from './components/counter/counter.component';
+import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -16,19 +20,20 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    SignInComponent,
+    CreateAccountComponent    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    ReactiveFormsModule,
+    AppRoutingModule,
+    OAuthModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
