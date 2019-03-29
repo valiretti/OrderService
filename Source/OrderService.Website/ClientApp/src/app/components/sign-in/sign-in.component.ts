@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -9,15 +9,20 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-  signInForm: FormGroup
+  signInForm: FormGroup;
   loading = false;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.signInForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+  });
   }
 
   onSubmit(): void {

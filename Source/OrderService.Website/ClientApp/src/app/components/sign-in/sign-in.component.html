@@ -1,15 +1,15 @@
-<h1>LOG IN</h1>
+<h2>Log In</h2>
 <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="inputEmail">Email</label>
-    <input type="text" class="form-control" id="inputEmail" formControlName="email" />
+    <label for="email">Email</label>
+    <input type="text" formControlName="email" class="form-control" />
+  </div>
+   <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" formControlName="password" class="form-control" />
   </div>
   <div class="form-group">
-    <label for="inputPassword">Password</label>
-    <input type="text" class="form-control" id="inputPassword" formControlName="password" />
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-act btn-full col-6 mx-auto" [disabled]="loading">LOG IN</button>
+    <button [disabled]="!loading" class="btn btn-primary">LOG IN</button>
   </div>
 </form>
 <div>
