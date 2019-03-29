@@ -135,8 +135,6 @@ namespace OrderService.DataProvider.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerUserId");
-
                     b.Property<int>("ExecutorId");
 
                     b.Property<string>("Message");
@@ -146,6 +144,8 @@ namespace OrderService.DataProvider.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ExecutorId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("CustomerRequests");
                 });
@@ -183,8 +183,6 @@ namespace OrderService.DataProvider.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerUserId");
-
                     b.Property<int>("ExecutorId");
 
                     b.Property<string>("Message");
@@ -194,6 +192,8 @@ namespace OrderService.DataProvider.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ExecutorId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("ExecutorRequests");
                 });
@@ -321,6 +321,10 @@ namespace OrderService.DataProvider.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("WorkTypes");
                 });
 
@@ -375,6 +379,11 @@ namespace OrderService.DataProvider.Migrations
                         .WithMany("CustomerRequests")
                         .HasForeignKey("ExecutorId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OrderService.DataProvider.Entities.Order", "Order")
+                        .WithMany("CustomerRequests")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("OrderService.DataProvider.Entities.Executor", b =>
@@ -394,6 +403,11 @@ namespace OrderService.DataProvider.Migrations
                     b.HasOne("OrderService.DataProvider.Entities.Executor", "Executor")
                         .WithMany("ExecutorRequests")
                         .HasForeignKey("ExecutorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OrderService.DataProvider.Entities.Order", "Order")
+                        .WithMany("ExecutorRequests")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

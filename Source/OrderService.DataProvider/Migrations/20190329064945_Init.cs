@@ -198,50 +198,6 @@ namespace OrderService.DataProvider.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ExecutorId = table.Column<int>(nullable: false),
-                    CustomerUserId = table.Column<string>(nullable: true),
-                    OrderId = table.Column<int>(nullable: false),
-                    Message = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomerRequests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CustomerRequests_Executors_ExecutorId",
-                        column: x => x.ExecutorId,
-                        principalTable: "Executors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ExecutorRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ExecutorId = table.Column<int>(nullable: false),
-                    CustomerUserId = table.Column<string>(nullable: true),
-                    OrderId = table.Column<int>(nullable: false),
-                    Message = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExecutorRequests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExecutorRequests_Executors_ExecutorId",
-                        column: x => x.ExecutorId,
-                        principalTable: "Executors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -279,6 +235,60 @@ namespace OrderService.DataProvider.Migrations
                         principalTable: "WorkTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomerRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ExecutorId = table.Column<int>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false),
+                    Message = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomerRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomerRequests_Executors_ExecutorId",
+                        column: x => x.ExecutorId,
+                        principalTable: "Executors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CustomerRequests_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExecutorRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ExecutorId = table.Column<int>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false),
+                    Message = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExecutorRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExecutorRequests_Executors_ExecutorId",
+                        column: x => x.ExecutorId,
+                        principalTable: "Executors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExecutorRequests_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -353,9 +363,19 @@ namespace OrderService.DataProvider.Migrations
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CustomerRequests_OrderId",
+                table: "CustomerRequests",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExecutorRequests_ExecutorId",
                 table: "ExecutorRequests",
                 column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExecutorRequests_OrderId",
+                table: "ExecutorRequests",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Executors_UserId",
@@ -393,6 +413,13 @@ namespace OrderService.DataProvider.Migrations
                 name: "IX_Photos_OrderId",
                 table: "Photos",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkTypes_Name",
+                table: "WorkTypes",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

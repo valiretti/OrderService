@@ -31,5 +31,9 @@ namespace OrderService.DataProvider.Entities
 
         public int? WorkTypeId { get; set; }
         public WorkType WorkType { get; set; }
+
+        public ICollection<ExecutorRequest> ExecutorRequests { get; set; }
+
+        public ICollection<CustomerRequest> CustomerRequests { get; set; }
     }
 }

@@ -19,6 +19,10 @@ namespace OrderService.DataProvider
 
         public DbSet<Executor> Executors { get; set; }
 
+        public DbSet<ExecutorRequest> ExecutorRequests { get; set; }
+
+        public DbSet<CustomerRequest> CustomerRequests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -41,6 +45,18 @@ namespace OrderService.DataProvider
                 .HasOne(o => o.Customer)
                 .WithMany(p => p.Orders)
                 .HasForeignKey(o => o.CustomerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            orderEntity
+                .HasMany(x => x.ExecutorRequests)
+                .WithOne(x => x.Order)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            orderEntity
+                .HasMany(x => x.CustomerRequests)
+                .WithOne(x => x.Order)
+                .HasForeignKey(x => x.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             var workTypeEntity = modelBuilder.Entity<WorkType>();
