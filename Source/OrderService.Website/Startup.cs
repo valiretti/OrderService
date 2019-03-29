@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderService.DataProvider;
 using OrderService.DataProvider.Entities;
+using OrderService.Logic;
 using OrderService.Website.Auth;
 using OrderService.Website.Filters;
 
@@ -65,7 +66,7 @@ namespace OrderService.Website
             services.AddMvc(opt => opt.Filters.Add(new GlobalExeptionFilter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var identityBuilder = services.AddIdentityServer()
+            var identityBuilder = services.AddIdentityServer(options => options.IssuerUri = "OrderService")
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources());
@@ -85,7 +86,7 @@ namespace OrderService.Website
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "http://localhost:55340";
+                    options.Authority = "https://localhost:55340";
                     options.RequireHttpsMetadata = false;
 
                     options.Audience = "api";
@@ -95,7 +96,7 @@ namespace OrderService.Website
             {
                 options.AddPolicy("default", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200")
+                    policy.WithOrigins("https://localhost:55340")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -105,6 +106,7 @@ namespace OrderService.Website
 
             builder.RegisterModule(new DataModule(connectionString));
             builder.RegisterModule<MapperModule>();
+            builder.RegisterModule<BusinessModule>();
 
             builder.Populate(services);
             var container = builder.Build();

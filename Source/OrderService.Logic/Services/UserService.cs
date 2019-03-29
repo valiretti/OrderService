@@ -32,7 +32,8 @@ namespace OrderService.Logic.Services
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email = model.Email
+                Email = model.Email,
+                UserName = model.Email
             };
 
            var res = await _manager.FindByEmailAsync(model.Email);

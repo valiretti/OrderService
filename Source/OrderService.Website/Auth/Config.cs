@@ -38,8 +38,8 @@ namespace OrderService.Website.Auth
                     AllowAccessTokensViaBrowser = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     UpdateAccessTokenClaimsOnRefresh = true,
-                    RedirectUris = { "http://localhost:4200/sign-in" },
-                    PostLogoutRedirectUris = { "http://localhost:4200/sign-out" }
+                    RedirectUris = { "https://localhost:55340/sign-in" },
+                    PostLogoutRedirectUris = { "https://localhost:55340/sign-out" }
                 }
             };
         }
