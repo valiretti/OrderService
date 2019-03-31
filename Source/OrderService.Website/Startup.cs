@@ -131,6 +131,7 @@ namespace OrderService.Website
             app.UseSpaStaticFiles();
 
             app.UseCors("default");
+            app.UseIdentityServer();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthService, JwksValidationHandler, OAuthStorage } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
@@ -26,9 +26,14 @@ export class AuthService {
 
   constructor(
     private authService: OAuthService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {
     this.configureWithNewConfigApi();
+
+    this.loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+    this.currentUserSubject = new BehaviorSubject<any>(
+        this.authService.getIdentityClaims() as any
+    );
   }
 
   private configureWithNewConfigApi() {
