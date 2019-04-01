@@ -1,4 +1,4 @@
-<div class='main-nav'>
+<!-- <div class='main-nav'>
     <div class='navbar navbar-inverse'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
@@ -40,5 +40,40 @@
             </ul>
         </div>
     </div>
-</div>
+</div> -->
 
+
+<div class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class='navbar-brand' [routerLink]='["/"]'>Order Service</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/counter" routerLinkActive="active">
+          <span class='glyphicon glyphicon-tasks'></span>
+          Orders</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/fetch-data" routerLinkActive="active">
+          <span class='glyphicon glyphicon-user'></span>
+          Executors</a>
+      </li>   
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" *ngIf="!isLogIn" routerLink="/sign-in" routerLinkActive="active">
+          <span class='glyphicon glyphicon-log-in'></span> Sign-in</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" *ngIf="isLogIn" (click)=signOut()>
+          <span class='glyphicon glyphicon-log-out'></span> Sign-out
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

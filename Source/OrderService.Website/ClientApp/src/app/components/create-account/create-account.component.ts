@@ -23,26 +23,26 @@ export class CreateAccountComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
       password: ['', Validators.required]
-  });
+    });
 
   }
 
   onSubmit() {
     if (this.registerForm.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
     this.authService.register(this.registerForm.value)
-        .pipe(first())
-        .subscribe(
-            data => {
-                this.router.navigate(['/sign-in']);
-            },
-            error => {
-                this.loading = false;
-            });
-}
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate(['/sign-in']);
+        },
+        error => {
+          this.loading = false;
+        });
+  }
 }

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { environment } from './../../environments/environment';
 import { AuthConfig, OAuthService, JwksValidationHandler, OAuthStorage } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
 import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
+import { Injectable } from '@angular/core';
 
 export const authConfig: AuthConfig = {
   issuer: 'OrderService',
@@ -16,13 +17,11 @@ export const authConfig: AuthConfig = {
   strictDiscoveryDocumentValidation: false
 };
 
-
 @Injectable()
 export class AuthService {
-  baseUrl: string = 'https://localhost:55340';
-  userAuthenticated = false;
-  private loggedInSubject: BehaviorSubject<boolean>;
+  loggedInSubject: BehaviorSubject<boolean>;
   private currentUserSubject: BehaviorSubject<any>;
+  private baseUrl: string = environment.baseUrl;
 
   constructor(
     private authService: OAuthService,
@@ -32,7 +31,7 @@ export class AuthService {
 
     this.loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
     this.currentUserSubject = new BehaviorSubject<any>(
-        this.authService.getIdentityClaims() as any
+      this.authService.getIdentityClaims() as any
     );
   }
 
@@ -64,7 +63,6 @@ export class AuthService {
 
     signinObservable.subscribe(
       (res: any) => {
-        this.userAuthenticated = true;
         this.loggedInSubject.next(true);
         this.currentUserSubject.next(res);
       }
@@ -78,7 +76,6 @@ export class AuthService {
     const logoutObservable = of(false);
     logoutObservable.subscribe(
       res => {
-        this.userAuthenticated = res;
         this.loggedInSubject.next(res);
       },
     );

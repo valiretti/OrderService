@@ -1,0 +1,36 @@
+<div class="order">
+  <h4>Orders</h4>
+
+  <div class="col-md-4" *ngFor="let ord of orders.orders">
+    <div class="card mb-4 shadow-sm">
+      <img [src]="ord.photoPath" height="225">
+      <div class="card-body">
+        <h6 class="card-text">{{ord.name}}</h6>
+        <p class="card-text">{{ord.description}}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">
+            <span class='glyphicon glyphicon-briefcase'></span>
+            {{ord.workTypeName}}</small>
+          <small class="text-muted">
+            <span class='glyphicon glyphicon-globe'></span>
+            {{ord.location}}</small>
+          <small class="text-muted" *ngIf="ord.finishDate">
+            <span class='glyphicon glyphicon-globe'></span>
+            {{ord.finishDate | date: "MM/d/y"}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <pagination *ngIf="totalCount > pageSize" class="msg-paging"
+    [totalItems]="totalCount"
+    [itemsPerPage]="pageSize"
+    [maxSize]="8"
+    [disabled]="isLoading"
+    [(ngModel)]="page"
+    (pageChanged)="loadOrders($event.page)"
+    pageBtnClass="msg-page-item"
+    previousText="🡠" nextText="🡢"
+  >
+  </pagination> -->

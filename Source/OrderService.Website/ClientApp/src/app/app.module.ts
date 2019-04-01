@@ -1,3 +1,6 @@
+import { WorkService } from './services/work.service';
+import { OrderService } from './services/order.service';
+import { AuthGuard } from './guards/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +16,8 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { AuthService } from './services/auth.service';
+import { OrdersComponent } from './components/order/orders/orders.component';
+import { CreateOrderComponent } from './components/order/create-order/create-order.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,9 @@ import { AuthService } from './services/auth.service';
     CounterComponent,
     FetchDataComponent,
     SignInComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    OrdersComponent,
+    CreateOrderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,7 +44,10 @@ import { AuthService } from './services/auth.service';
     })
   ],
   providers: [
-    AuthService
+    AuthService,
+    OrderService,
+    WorkService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
