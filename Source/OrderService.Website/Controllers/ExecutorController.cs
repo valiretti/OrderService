@@ -61,7 +61,7 @@ namespace OrderService.Website.Controllers
 
             var executors = await _executorService.GetPage(page, count);
 
-            return executors.TotalCount > 0 ? (IActionResult)Ok(executors) : NotFound();
+            return Ok(executors);
         }
 
         private bool CheckPageParameters(int page, int count, out IActionResult actionResult)

@@ -58,7 +58,7 @@ namespace OrderService.Website.Controllers
 
             var orders = await _orderService.GetPage(page, count);
 
-            return orders.TotalCount > 0 ? (IActionResult)Ok(orders) : NotFound();
+            return  Ok(orders);
         }
 
         [HttpGet("user")]
@@ -68,7 +68,7 @@ namespace OrderService.Website.Controllers
 
             var orders = await _orderService.GetPageByCustomerId(page, count, User.GetSubjectId());
 
-            return orders.TotalCount > 0 ? (IActionResult)Ok(orders) : NotFound();
+            return Ok(orders);
         }
 
         [HttpPost("{id:int:min(1)}/appointExecutor")]

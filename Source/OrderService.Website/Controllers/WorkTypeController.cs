@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Logic.Services;
 using OrderService.Model;
@@ -44,9 +43,9 @@ namespace OrderService.Website.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var orders = await _service.Get();
+            var works = await _service.Get();
 
-            return orders?.Count() > 0 ? (IActionResult)Ok(orders) : NotFound();
+            return Ok(works);
         }
     }
 }
