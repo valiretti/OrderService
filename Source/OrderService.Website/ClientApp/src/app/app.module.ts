@@ -3,7 +3,7 @@ import { OrderService } from './services/order.service';
 import { AuthGuard } from './guards/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.modules';
 
@@ -18,6 +18,8 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 import { AuthService } from './services/auth.service';
 import { OrdersComponent } from './components/order/orders/orders.component';
 import { CreateOrderComponent } from './components/order/create-order/create-order.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,10 @@ import { CreateOrderComponent } from './components/order/create-order/create-ord
         allowedUrls: ['https://localhost:55340'],
         sendAccessToken: true
       }
-    })
+    }),
+    FormsModule,
+    CollapseModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [
     AuthService,

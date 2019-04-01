@@ -23,14 +23,14 @@
   </div>
 </div>
 
-<!-- <pagination *ngIf="totalCount > pageSize" class="msg-paging"
+<pagination *ngIf="totalCount > pageSize" class="msg-paging"
     [totalItems]="totalCount"
     [itemsPerPage]="pageSize"
     [maxSize]="8"
-    [disabled]="isLoading"
     [(ngModel)]="page"
+    [disabled]="isLoading"
     (pageChanged)="loadOrders($event.page)"
     pageBtnClass="msg-page-item"
     previousText="🡠" nextText="🡢"
   >
-  </pagination> -->
+  </pagination>

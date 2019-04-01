@@ -1,11 +1,9 @@
 import { environment } from './../../environments/environment';
 import { AuthConfig, OAuthService, JwksValidationHandler, OAuthStorage } from 'angular-oauth2-oidc';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, from, of } from 'rxjs';
 import { User } from '../models/user';
-import { from } from 'rxjs/observable/from';
-import { of } from 'rxjs/observable/of';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 export const authConfig: AuthConfig = {
   issuer: 'OrderService',

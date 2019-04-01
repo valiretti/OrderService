@@ -46,7 +46,7 @@ export class CreateOrderComponent implements OnInit {
   }
 
   uploaded($event) {
-    this.images.push($event);
+    this.images.push($event.target.files);
   }
 
   onSubmit() {

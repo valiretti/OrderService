@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-account',
@@ -23,7 +22,7 @@ export class CreateAccountComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -36,7 +35,6 @@ export class CreateAccountComponent implements OnInit {
 
     this.loading = true;
     this.authService.register(this.registerForm.value)
-      .pipe(first())
       .subscribe(
         data => {
           this.router.navigate(['/sign-in']);
