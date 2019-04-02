@@ -34,9 +34,9 @@ namespace OrderService.Logic.Services
                 foreach (var file in item.Files)
                 {
                     var path = $"{Guid.NewGuid():N}{Path.GetExtension(file.FileName)}";
-                    var imagePath = Path.Combine("/Files/", path);
+                    var imagePath = Path.Combine("Files", path);
 
-                    using (var fileStream = new FileStream(_hostingEnvironment.WebRootPath + imagePath, FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, imagePath), FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
                     }

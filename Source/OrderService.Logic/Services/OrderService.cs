@@ -30,7 +30,7 @@ namespace OrderService.Logic.Services
             _mapper = mapper;
         }
 
-        public async Task<Order> Create(CreateOrderModel item)
+        public async Task<OrderViewModel> Create(CreateOrderModel item)
         {
             var order = _mapper.Map<Order>(item);
             var result = _validator.Validate(order);
@@ -45,7 +45,7 @@ namespace OrderService.Logic.Services
             await _orderRepository.Create(order);
             await _commitProvider.SaveAsync();
 
-            return order;
+            return _mapper.Map<OrderViewModel>(order);
         }
 
         public async Task Update(UpdateOrderModel item)

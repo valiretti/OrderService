@@ -10,7 +10,7 @@ namespace OrderService.Logic.Services
 {
     public interface IOrderService
     {
-        Task<Order> Create(CreateOrderModel item);
+        Task<OrderViewModel> Create(CreateOrderModel item);
 
         Task Update(UpdateOrderModel order);
 

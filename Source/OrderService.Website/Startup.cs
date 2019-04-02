@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -79,8 +80,13 @@ namespace OrderService.Website
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            JwtSecurityTokenHandler.DefaultInboundClaimFilter.Clear();
+
             services.AddAuthentication(options =>
                 {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
@@ -88,6 +94,10 @@ namespace OrderService.Website
                 {
                     options.Authority = "https://localhost:55340";
                     options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters.NameClaimType = JwtClaimTypes.Subject;
+                    options.TokenValidationParameters.RoleClaimType = JwtClaimTypes.Role;
+                    options.TokenValidationParameters.AuthenticationType =
+                        IdentityServerAuthenticationDefaults.AuthenticationScheme;
 
                     options.Audience = "api";
                 });

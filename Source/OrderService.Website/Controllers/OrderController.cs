@@ -23,13 +23,7 @@ namespace OrderService.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOrderModel request)
         {
-            var token = Request.Headers["Authorization"][0].Remove(0, "Bearer ".Length);
-
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadJwtToken(token);
-            var id = jsonToken.Claims.First(claim => claim.Type == "sub").Value;
-
-            request.CustomerUserId = id;
+            request.CustomerUserId = User.GetSubjectId();
             var order = await _orderService.Create(request);
 
             return Ok(order);

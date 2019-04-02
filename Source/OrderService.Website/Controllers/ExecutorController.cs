@@ -25,15 +25,7 @@ namespace OrderService.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExecutorModel request)
         {
-            //request.UserId = User.GetSubjectId();
-
-            var token = Request.Headers["Authorization"][0].Remove(0, "Bearer ".Length);
-
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadJwtToken(token);
-            var id = jsonToken.Claims.First(claim => claim.Type == "sub").Value;
-
-            request.UserId = id;
+            request.UserId = User.GetSubjectId();
             var order = await _executorService.Create(request);
 
             return Ok(order);
