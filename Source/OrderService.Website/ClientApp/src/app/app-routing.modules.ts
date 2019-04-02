@@ -1,3 +1,4 @@
+import { OrderComponent } from './components/order/order/order.component';
 import { ExecutorsComponent } from './components/executor/executors/executors.component';
 import { CreateExecutorComponent } from './components/executor/create-executor/create-executor.component';
 import { CreateOrderComponent } from './components/order/create-order/create-order.component';
@@ -14,7 +15,7 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent, pathMatch: 'full'
+    component: HomeComponent
   }, {
     path: 'counter',
     component: CounterComponent
@@ -24,7 +25,11 @@ const routes: Routes = [
   },
   {
     path: 'orders/create',
-    component: CreateOrderComponent, canActivate: [AuthGuard], pathMatch: 'full'
+    component: CreateOrderComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: 'orders/:id',
+    component: OrderComponent
   },
   {
     path: 'executors',
@@ -32,17 +37,17 @@ const routes: Routes = [
   },
   {
     path: 'executors/create',
-    component: CreateExecutorComponent, canActivate: [AuthGuard], pathMatch: 'full'
+    component: CreateExecutorComponent, canActivate: [AuthGuard]
   },
   {
     path: 'fetch-data',
     component: FetchDataComponent, canActivate: [AuthGuard]
   }, {
     path: 'sign-in',
-    component: SignInComponent, pathMatch: 'full'
+    component: SignInComponent
   }, {
     path: 'create-account',
-    component: CreateAccountComponent, pathMatch: 'full'
+    component: CreateAccountComponent
   }
 ];
 @NgModule({

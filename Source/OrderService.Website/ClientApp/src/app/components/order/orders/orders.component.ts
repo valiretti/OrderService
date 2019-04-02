@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { OrderPage } from './../../../models/orderPage';
 import { OrderService } from './../../../services/order.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-orders',
@@ -18,6 +17,7 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -41,4 +41,9 @@ export class OrdersComponent implements OnInit {
         }
       );
   }
+
+  open(id: number) {
+    this.router.navigate(['/orders', id]);
+  }
+
 }

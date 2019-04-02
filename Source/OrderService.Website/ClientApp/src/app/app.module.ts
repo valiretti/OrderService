@@ -25,6 +25,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { CreateExecutorComponent } from './components/executor/create-executor/create-executor.component';
 import { ExecutorsComponent } from './components/executor/executors/executors.component';
+import { OrderComponent } from './components/order/order/order.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ExecutorsComponent } from './components/executor/executors/executors.co
     OrdersComponent,
     CreateOrderComponent,
     CreateExecutorComponent,
-    ExecutorsComponent
+    ExecutorsComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
