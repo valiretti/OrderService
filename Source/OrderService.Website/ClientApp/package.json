@@ -24,6 +24,7 @@
     "@angular/platform-server": "7.2.11",
     "@angular/router": "7.2.11",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
+    "angular-file-uploader": "^5.0.2",
     "angular-oauth2-oidc": "^5.0.2",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.3.1",

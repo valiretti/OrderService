@@ -54,17 +54,27 @@
     (click)='collapse()'>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/counter" routerLinkActive="active">
+        <a class="nav-link" routerLink="/orders" routerLinkActive="active">
           <span class='glyphicon glyphicon-tasks'></span>
           Orders</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/fetch-data" routerLinkActive="active">
+        <a class="nav-link" routerLink="/executors" routerLinkActive="active">
           <span class='glyphicon glyphicon-user'></span>
           Executors</a>
       </li>
     </ul>
     <ul class="navbar-nav justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/orders/create" routerLinkActive="active">
+              <span class='glyphicon glyphicon-user'></span>
+              Create order</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" routerLink="/executors/create" routerLinkActive="active">
+                <span class='glyphicon glyphicon-user'></span>
+                Become executor</a>
+            </li>
       <li class="nav-item ">
         <a class="nav-link" *ngIf="!isLogIn" routerLink="/sign-in" routerLinkActive="active">
           <span class='glyphicon glyphicon-log-in'></span> Sign-in</a>

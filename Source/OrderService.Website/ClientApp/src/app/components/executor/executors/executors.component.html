@@ -1,0 +1,22 @@
+<h4>Executors</h4>
+<div class="row">
+  <div class="col-md-6" *ngFor="let exec of executors.executors">
+    <div class="card mb-6 shadow-sm">
+      <img [src]="exec.photoPath" height="125" width="150">
+      <div class="card-body">
+        <h6 class="card-text">{{exec.organizationName}}</h6>
+        <p class="card-text">{{exec.description}}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">
+            <i class="fas fa-briefcase"></i>
+            {{exec.workTypeName}}</small>          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<pagination *ngIf="totalCount > pageSize" class="msg-paging" [totalItems]="totalCount" [itemsPerPage]="pageSize"
+  [maxSize]="8" [(ngModel)]="page" [disabled]="isLoading" (pageChanged)="loadExecutorss($event.page)"
+  pageBtnClass="msg-page-item" previousText="🡠" nextText="🡢">
+</pagination>

@@ -1,3 +1,4 @@
+import { ExecutorService } from './services/executor.service';
 import { WorkService } from './services/work.service';
 import { OrderService } from './services/order.service';
 import { AuthGuard } from './guards/auth.guard';
@@ -21,6 +22,10 @@ import { CreateOrderComponent } from './components/order/create-order/create-ord
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { CreateExecutorComponent } from './components/executor/create-executor/create-executor.component';
+import { ExecutorsComponent } from './components/executor/executors/executors.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +36,9 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     SignInComponent,
     CreateAccountComponent,
     OrdersComponent,
-    CreateOrderComponent
+    CreateOrderComponent,
+    CreateExecutorComponent,
+    ExecutorsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,12 +53,14 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     }),
     FormsModule,
     CollapseModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    AngularFileUploaderModule,
   ],
   providers: [
     AuthService,
     OrderService,
     WorkService,
+    ExecutorService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

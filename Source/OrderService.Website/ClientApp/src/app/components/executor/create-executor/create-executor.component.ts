@@ -1,25 +1,31 @@
-import { environment } from './../../../../environments/environment';
-import { NewOrder } from './../../../models/newOrder';
+import { ExecutorService } from './../../../services/executor.service';
+import { NewExecutor } from './../../../models/newExecutor';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Work } from './../../../models/work';
 import { WorkService } from './../../../services/work.service';
-import { OrderService } from './../../../services/order.service';
-import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import { environment } from './../../../../environments/environment';
 
 @Component({
-  selector: 'app-create-order',
-  templateUrl: './create-order.component.html',
-  styleUrls: ['./create-order.component.css']
+  selector: 'app-create-executor',
+  templateUrl: './create-executor.component.html',
+  styleUrls: ['./create-executor.component.css']
 })
-export class CreateOrderComponent implements OnInit {
+export class CreateExecutorComponent implements OnInit {
   images: number[];
   works: Work[];
-  orderForm: FormGroup;
+  executorForm: FormGroup;
   loading = false;
-  order: NewOrder = new NewOrder();
+  executor: NewExecutor = new NewExecutor();
   private baseUrl: string = environment.baseUrl;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private executorService: ExecutorService,
+    private workService: WorkService,
+  ) { }
 
   afuConfig = {
     multiple: true,
@@ -36,28 +42,18 @@ export class CreateOrderComponent implements OnInit {
       selectFileBtn: 'Select',
       resetBtn: 'Reset',
       uploadBtn: 'Upload',
-      dragNDropBox: 'Drag photos for your order here or select files. They will help better evaluate the task.',
+      dragNDropBox: 'Drag photos of your work here or select files. Pictures will help you get more orders.',
       attachPinBtn: 'Attach Files...',
       afterUploadMsg_success: 'Successfully Uploaded !',
       afterUploadMsg_error: 'Upload Failed !'
     }
 };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private orderService: OrderService,
-    private workService: WorkService,
-  ) { }
-
   ngOnInit() {
-    this.orderForm = this.formBuilder.group({
-      name: ['', Validators.required],
+    this.executorForm = this.formBuilder.group({
+      organizationName: ['', Validators.required],
       description: ['', Validators.required],
-      location: ['', Validators.required],
-      customerPhoneNumber: ['', Validators.required],
-      finishDate: [''],
-      price: [''],
+      phoneNumber: ['', Validators.required],
       workTypeId: ['']
     });
 
@@ -76,16 +72,16 @@ export class CreateOrderComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.order = this.orderForm.value;
-    this.order.photos = this.images;
-    this.orderService.createOrder(this.order)
+    this.executor = this.executorForm.value;
+    this.executor.photos = this.images;
+    this.executorService.createExecutor(this.executor)
       .subscribe(
         data => {
-          this.router.navigate(['/orders']);
+          this.router.navigate(['/executors']);
         },
         error => {
-          console.error(error);
           this.loading = false;
         });
   }
+
 }

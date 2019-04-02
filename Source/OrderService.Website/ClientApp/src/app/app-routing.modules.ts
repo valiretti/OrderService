@@ -1,3 +1,5 @@
+import { ExecutorsComponent } from './components/executor/executors/executors.component';
+import { CreateExecutorComponent } from './components/executor/create-executor/create-executor.component';
 import { CreateOrderComponent } from './components/order/create-order/create-order.component';
 import { OrdersComponent } from './components/order/orders/orders.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -18,11 +20,19 @@ const routes: Routes = [
     component: CounterComponent
   }, {
     path: 'orders',
-    component: OrdersComponent, canActivate: [AuthGuard]
+    component: OrdersComponent
   },
   {
     path: 'orders/create',
-    component: CreateOrderComponent, canActivate: [AuthGuard]
+    component: CreateOrderComponent, canActivate: [AuthGuard], pathMatch: 'full'
+  },
+  {
+    path: 'executors',
+    component: ExecutorsComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: 'executors/create',
+    component: CreateExecutorComponent, canActivate: [AuthGuard], pathMatch: 'full'
   },
   {
     path: 'fetch-data',

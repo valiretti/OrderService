@@ -16,13 +16,12 @@ export class OrdersComponent implements OnInit {
   totalCount: number;
   orders: OrderPage = new OrderPage();
 
-
   constructor(
     private orderService: OrderService,
   ) { }
 
   ngOnInit() {
-    this.loadOrders(1);
+    this.loadOrders(this.page);
   }
 
   loadOrders(page: number) {
@@ -42,5 +41,4 @@ export class OrdersComponent implements OnInit {
         }
       );
   }
-
 }

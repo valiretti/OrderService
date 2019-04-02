@@ -5,7 +5,11 @@ export class Order {
     location: string;
     price?: number;
     name: string;
+    executorName?: string;
+    customerName?: string;
     description: string;
     photoPath: string;
     workTypeName: string;
+    customerPhoneNumber?: string;
+    photoPaths?: string[];
 }

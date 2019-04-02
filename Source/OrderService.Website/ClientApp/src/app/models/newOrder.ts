@@ -5,6 +5,6 @@ export class NewOrder {
     price?: number;
     name: string;
     description: string;
-    photos: any;
+    photos: number[];
     customerPhoneNumber: string;
 }
