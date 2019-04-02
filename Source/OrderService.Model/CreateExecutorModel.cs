@@ -17,6 +17,6 @@ namespace OrderService.Model
 
         public int? WorkTypeId { get; set; }
 
-        public IFormFileCollection Photos { get; set; }
+        public int[] Photos { get; set; }
     }
 }

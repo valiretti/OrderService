@@ -36,6 +36,7 @@ namespace OrderService.Website.Auth
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     UpdateAccessTokenClaimsOnRefresh = true,
                     RedirectUris = { "https://localhost:55340/sign-in" },

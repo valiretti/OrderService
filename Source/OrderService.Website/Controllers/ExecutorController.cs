@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +25,15 @@ namespace OrderService.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExecutorModel request)
         {
-            request.UserId = User.GetSubjectId();
+            //request.UserId = User.GetSubjectId();
+
+            var token = Request.Headers["Authorization"][0].Remove(0, "Bearer ".Length);
+
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadJwtToken(token);
+            var id = jsonToken.Claims.First(claim => claim.Type == "sub").Value;
+
+            request.UserId = id;
             var order = await _executorService.Create(request);
 
             return Ok(order);

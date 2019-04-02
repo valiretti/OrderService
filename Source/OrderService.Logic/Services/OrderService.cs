@@ -16,15 +16,15 @@ namespace OrderService.Logic.Services
     public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _orderRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IPhotoService _photoService;
         private readonly ICommitProvider _commitProvider;
         private readonly IValidator<Order> _validator;
         private readonly IMapper _mapper;
 
-        public OrderService(IRepository<Order> orderRepository, IHostingEnvironment hostingEnvironment, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
+        public OrderService(IRepository<Order> orderRepository, IPhotoService photoService, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
         {
             _orderRepository = orderRepository;
-            _hostingEnvironment = hostingEnvironment;
+            _photoService = photoService;
             _commitProvider = commitProvider;
             _validator = validator;
             _mapper = mapper;
@@ -148,20 +148,11 @@ namespace OrderService.Logic.Services
         {
             if (item.Photos != null)
             {
-                foreach (var photo in item.Photos)
+                var photos = await _photoService.GetByIds(item.Photos);
+                order.Photos = new List<Photo>();
+                foreach (var photo in photos)
                 {
-                    var path = $"{Guid.NewGuid():N}{Path.GetExtension(photo.FileName)}";
-                    var imagePath = "/Files/" + path;
-
-                    using (var fileStream = new FileStream(_hostingEnvironment.WebRootPath + imagePath, FileMode.Create))
-                    {
-                        await photo.CopyToAsync(fileStream);
-                    }
-
-                    order.Photos.Add(new Photo
-                    {
-                        PhotoPath = imagePath
-                    });
+                    order.Photos.Add(photo);
                 }
             }
         }

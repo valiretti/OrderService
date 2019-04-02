@@ -13,7 +13,7 @@ namespace OrderService.Model
 
         public string Description { get; set; }
 
-        public IFormFileCollection Photos { get; set; }
+        public int[] Photos { get; set; }
 
         public string Location { get; set; }
 

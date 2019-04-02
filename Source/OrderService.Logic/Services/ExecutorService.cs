@@ -16,15 +16,15 @@ namespace OrderService.Logic.Services
     public class ExecutorService : IExecutorService
     {
         private readonly IRepository<Executor> _repository;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IPhotoService _photoService;
         private readonly ICommitProvider _commitProvider;
         private readonly IValidator<Executor> _validator;
         private readonly IMapper _mapper;
 
-        public ExecutorService(IRepository<Executor> repository, IHostingEnvironment hostingEnvironment, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
+        public ExecutorService(IRepository<Executor> repository, IPhotoService photoService, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
         {
             _repository = repository;
-            _hostingEnvironment = hostingEnvironment;
+            _photoService = photoService;
             _commitProvider = commitProvider;
             _validator = validator;
             _mapper = mapper;
@@ -110,25 +110,16 @@ namespace OrderService.Logic.Services
             await _repository.Delete(id);
             await _commitProvider.SaveAsync();
         }
-
+        
         private async Task AddPhotos(CreateExecutorModel item, Executor executor)
         {
             if (item.Photos != null)
             {
-                foreach (var photo in item.Photos)
+                var photos = await _photoService.GetByIds(item.Photos);
+                executor.Photos = new List<Photo>();
+                foreach (var photo in photos)
                 {
-                    var path = $"{Guid.NewGuid():N}{Path.GetExtension(photo.FileName)}";
-                    var imagePath = "/Files/" + path;
-
-                    using (var fileStream = new FileStream(_hostingEnvironment.WebRootPath + imagePath, FileMode.Create))
-                    {
-                        await photo.CopyToAsync(fileStream);
-                    }
-
-                    executor.Photos.Add(new Photo
-                    {
-                        PhotoPath = imagePath
-                    });
+                    executor.Photos.Add(photo);
                 }
             }
         }

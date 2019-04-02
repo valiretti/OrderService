@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using OrderService.Logic.Services;
 using OrderService.Model;
 
@@ -20,7 +23,13 @@ namespace OrderService.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOrderModel request)
         {
-            request.CustomerUserId = User.GetSubjectId();
+            var token = Request.Headers["Authorization"][0].Remove(0, "Bearer ".Length);
+
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadJwtToken(token);
+            var id = jsonToken.Claims.First(claim => claim.Type == "sub").Value;
+
+            request.CustomerUserId = id;
             var order = await _orderService.Create(request);
 
             return Ok(order);
@@ -58,7 +67,7 @@ namespace OrderService.Website.Controllers
 
             var orders = await _orderService.GetPage(page, count);
 
-            return  Ok(orders);
+            return Ok(orders);
         }
 
         [HttpGet("user")]
@@ -78,7 +87,7 @@ namespace OrderService.Website.Controllers
 
             return NoContent();
         }
-        
+
         private bool CheckPageParameters(int page, int count, out IActionResult actionResult)
         {
             if (page < 0)
