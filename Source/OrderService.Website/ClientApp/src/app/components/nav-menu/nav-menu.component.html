@@ -1,57 +1,11 @@
-<!-- <div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]='["/"]'>Order Service</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/counter"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-tasks'></span> Orders
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-user'></span> Executors
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/sign-in"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-log-in'></span> Sign-in
-                    </a>
-                </li>
-                <li>
-                  <a (click)=signOut()>
-                      <span class='glyphicon glyphicon-log-out'></span> Sign-out
-                  </a>
-              </li>
-            </ul>
-        </div>
-    </div>
-</div> -->
-
-
 <div class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <a class='navbar-brand' [routerLink]='["/"]'>Order Service</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-    aria-controls="navbarsExampleDefault" aria-label="Toggle navigation"
-    [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+    aria-controls="navbarsExampleDefault" aria-label="Toggle navigation" [attr.aria-expanded]='isExpanded'
+    (click)='toggle()'>
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault" [collapse]="!isExpanded"
-    (click)='collapse()'>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault" [collapse]="!isExpanded" (click)='collapse()'>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" routerLink="/orders" routerLinkActive="active">
@@ -65,16 +19,21 @@
       </li>
     </ul>
     <ul class="navbar-nav justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/orders/create" routerLinkActive="active">
-              <span class='glyphicon glyphicon-user'></span>
-              Create order</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLink="/executors/create" routerLinkActive="active">
-                <span class='glyphicon glyphicon-user'></span>
-                Become executor</a>
-            </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/orders/create" routerLinkActive="active">
+          <span class='glyphicon glyphicon-user'></span>
+          Create order</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/executors/create" routerLinkActive="active">
+          <span class='glyphicon glyphicon-user'></span>
+          Become executor</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" routerLink="/account" routerLinkActive="active">
+            <span class='glyphicon glyphicon-user'></span>
+            My account</a>
+        </li>
       <li class="nav-item ">
         <a class="nav-link" *ngIf="!isLogIn" routerLink="/sign-in" routerLinkActive="active">
           <span class='glyphicon glyphicon-log-in'></span> Sign-in</a>

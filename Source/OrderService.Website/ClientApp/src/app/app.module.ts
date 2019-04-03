@@ -28,6 +28,8 @@ import { ExecutorsComponent } from './components/executor/executors/executors.co
 import { OrderComponent } from './components/order/order/order.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ExecutorComponent } from './components/executor/executor/executor.component';
+import { AccountComponent } from './components/account/account/account.component';
+import { AccountOrdersComponent } from './components/account/account-orders/account-orders.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { ExecutorComponent } from './components/executor/executor/executor.compo
     CreateExecutorComponent,
     ExecutorsComponent,
     OrderComponent,
-    ExecutorComponent
+    ExecutorComponent,
+    AccountComponent,
+    AccountOrdersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

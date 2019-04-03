@@ -1,3 +1,5 @@
+import { AccountOrdersComponent } from './components/account/account-orders/account-orders.component';
+import { AccountComponent } from './components/account/account/account.component';
 import { ExecutorComponent } from './components/executor/executor/executor.component';
 import { OrderComponent } from './components/order/order/order.component';
 import { ExecutorsComponent } from './components/executor/executors/executors.component';
@@ -14,35 +16,20 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 
 const routes: Routes = [
-  {
-    path: '', component: HomeComponent
-  }, {
-    path: 'counter', component: CounterComponent
-  }, {
-    path: 'orders', component: OrdersComponent
-  },
-  {
-    path: 'orders/create', component: CreateOrderComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'orders/:id', component: OrderComponent
-  },
-  {
-    path: 'executors', component: ExecutorsComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'executors/create', component: CreateExecutorComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'executors/:id', component: ExecutorComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard]
-  }, {
-    path: 'sign-in', component: SignInComponent
-  }, {
-    path: 'create-account', component: CreateAccountComponent
-  }
+  { path: '', component: HomeComponent },
+  { path: 'counter', component: CounterComponent },
+  { path: 'orders', component: OrdersComponent },
+  { path: 'orders/create', component: CreateOrderComponent, canActivate: [AuthGuard] },
+  { path: 'orders/:id', component: OrderComponent },
+  { path: 'executors', component: ExecutorsComponent, canActivate: [AuthGuard] },
+  { path: 'executors/create', component: CreateExecutorComponent, canActivate: [AuthGuard] },
+  { path: 'executors/:id', component: ExecutorComponent, canActivate: [AuthGuard] },
+  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'account/create', component: CreateAccountComponent },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+  { path: 'account/orders', component: AccountOrdersComponent, canActivate: [AuthGuard] },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
