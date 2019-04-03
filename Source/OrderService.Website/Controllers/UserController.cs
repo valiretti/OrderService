@@ -21,7 +21,7 @@ namespace OrderService.Website.Controllers
         {
             var id = await _userService.Register(model);
 
-            return Ok(id);
+            return Ok($"\"{id}\"");
         }
     }
 }

@@ -1,18 +1,32 @@
-<app-account></app-account>
 
-<div class="col-md-9 ml-sm-auto col-lg-10 px-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Dashboard</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let ord of orders.orders">
+        <div class="card mb-4 shadow-sm hover-card" (click) = "open(ord.id)">
+          <img [src]="ord.photoPath" height="225" width="250">
+          <div class="card-body">
+            <h4 class="card-text">{{ord.name}}</h4>
+            <span class="d-flex justify-content-end">{{ (ord.price | currency) || "contract price"}}</span>
+            <p class="card-text">{{(ord.description | slice:0:110) + '...'}}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                <i class="fas fa-briefcase"></i>
+                {{ord.workTypeName}}</small>
+              <small class="text-muted">
+                <span class='glyphicon glyphicon-globe'></span>
+                {{ord.location}}</small>
+              <small class="text-muted" *ngIf="ord.finishDate">
+                <span class='glyphicon glyphicon-globe'></span>
+                {{ord.finishDate | date: "MM.d.y"}}</small>
+            </div>
+          </div>
+        </div>
       </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-      </button>
     </div>
+
+    <pagination *ngIf="totalCount > pageSize" class="msg-paging" [totalItems]="totalCount" [itemsPerPage]="pageSize"
+      [maxSize]="8" [(ngModel)]="page" [disabled]="isLoading" (pageChanged)="loadOrders($event.page)"
+      pageBtnClass="msg-page-item" previousText="🡠" nextText="🡢">
+    </pagination>
   </div>
-</div>
 

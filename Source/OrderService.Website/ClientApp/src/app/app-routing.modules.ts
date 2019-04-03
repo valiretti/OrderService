@@ -27,8 +27,11 @@ const routes: Routes = [
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInComponent },
   { path: 'account/create', component: CreateAccountComponent },
-  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
-  { path: 'account/orders', component: AccountOrdersComponent, canActivate: [AuthGuard] },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard],
+  children: [
+    { path: 'orders', component: AccountOrdersComponent }
+  ]
+ },
 
 ];
 @NgModule({

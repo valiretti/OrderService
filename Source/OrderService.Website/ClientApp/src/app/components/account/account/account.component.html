@@ -4,7 +4,11 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" routerLink="/account/orders" routerLinkActive="active">
+            <a
+              class="nav-link active"
+              routerLink="/account/orders"
+              routerLinkActive="active"
+            >
               My orders
             </a>
           </li>
@@ -25,3 +29,9 @@
           </li>
         </ul>
       </div>
+    </nav>
+    <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
