@@ -22,5 +22,7 @@ namespace OrderService.Model
         public string PhotoPath { get; set; }
 
         public string WorkTypeName { get; set; }
+
+        public Status Status { get; set; }
     }
 }

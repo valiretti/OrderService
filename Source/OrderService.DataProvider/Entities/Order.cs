@@ -14,6 +14,8 @@ namespace OrderService.DataProvider.Entities
         public User Customer { get; set; }
 
         public string CustomerPhoneNumber { get; set; }
+
+        public Status Status { get; set; }
         
         public DateTime CreationDate { get; set; }
 

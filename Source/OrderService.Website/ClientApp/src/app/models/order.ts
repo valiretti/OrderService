@@ -1,3 +1,5 @@
+import { Status } from './status';
+
 export class Order {
     id?: number;
     creationDate: string;
@@ -12,4 +14,5 @@ export class Order {
     workTypeName: string;
     customerPhoneNumber?: string;
     photoPaths?: string[];
+    status: Status;
 }

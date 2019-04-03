@@ -74,6 +74,7 @@ namespace OrderService.Logic.Services
             var executors = await _repository.GetAll()
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
+                .OrderByDescending(x => x.CreationDate)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

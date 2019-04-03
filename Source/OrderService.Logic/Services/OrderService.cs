@@ -40,7 +40,8 @@ namespace OrderService.Logic.Services
             }
 
             order.CreationDate = DateTime.UtcNow;
-            
+            order.Status = Status.Active;
+
             await AddPhotos(item, order);
             await _orderRepository.Create(order);
             await _commitProvider.SaveAsync();
@@ -74,7 +75,7 @@ namespace OrderService.Logic.Services
             var orders = await _orderRepository.GetAll()
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
-                .Where(o => o.ExecutorId == null)
+                .Where(o => o.Status == Status.Active && o.ExecutorId == null)
                  .OrderByDescending(x => x.CreationDate)
                  .Skip(pageNumber * pageSize)
                  .Take(pageSize)
@@ -128,6 +129,7 @@ namespace OrderService.Logic.Services
                 throw new ValidationException("The order doesn't exist");
             }
 
+            order.Status = Status.Confirmed;
             order.ExecutorId = executorId;
             await _commitProvider.SaveAsync();
         }

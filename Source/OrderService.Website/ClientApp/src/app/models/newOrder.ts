@@ -1,4 +1,7 @@
+import { Status } from './status';
+
 export class NewOrder {
+    id?: number;
     workTypeId?: number;
     finishDate?: string;
     location: string;
@@ -7,4 +10,5 @@ export class NewOrder {
     description: string;
     photos: number[];
     customerPhoneNumber: string;
+    status?: Status;
 }

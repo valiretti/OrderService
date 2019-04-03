@@ -30,5 +30,7 @@ namespace OrderService.Model
         public ICollection<string> PhotoPaths { get; set; }
 
         public string WorkTypeName { get; set; }
+
+        public Status Status { get; set; }
     }
 }
