@@ -1,33 +1,23 @@
 <div class="container" *ngIf="!isLoading">
     <div class="row justify-content-center">
-        <h2>{{order.name}}</h2>
-    </div>
-    <div class="row">
-        <div class="col-md-6 ml-md-auto"> {{order.customerName}} </div>
-        <div class="col-md-3 ml-md-auto"> {{(order.price | currency) || "contract price"}} </div>
+        <h2>{{executor.organizationName}}</h2>
         <hr width="1000" color="lightgrey" />
     </div>
     <div class="row">
-        <div class="col-md-6 ml-md-auto"> {{order.description}} </div>
+        <div class="col-md-6 ml-md-auto"> {{executor.description}} </div>
         <div class="col-md-3 ml-md-auto">
             <div class="col-sm-4">
-                {{order.workTypeName}}
-            </div>
-            <div class="col-sm-4">
-                {{order.location}}
-            </div>
-            <div class="col-sm-4">
-                {{order.finishDate | date: "MM.d.y"}}
+                {{executor.workTypeName}}
             </div>
         </div>
     </div>
     <div class="row justify-content-center carousel">
         <div class="col-md-4">
             <carousel [interval]="interval" [(activeSlide)]="activeSlideIndex">
-                <slide *ngFor="let path of order.photoPaths; let index=index">
+                <slide *ngFor="let path of executor.photoPaths; let index=index">
                     <img [src]="path" alt="image slide" style="display: block; width: 100%;"
                         class="img-responsive center-block">
-                    <div class="carousel-caption" *ngIf="order.photoPaths.length > 1">
+                    <div class="carousel-caption" *ngIf="executor.photoPaths.length > 1">
                         <h4>Slide {{index + 1}}</h4>
                     </div>
                 </slide>

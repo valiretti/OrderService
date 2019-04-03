@@ -1,7 +1,7 @@
 <h4>Executors</h4>
 <div class="row">
   <div class="col-md-3" *ngFor="let exec of executors.executors">
-    <div class="card mb-3 shadow-sm">
+    <div class="card mb-3 shadow-sm hover-card" (click) = "open(exec.id)">
       <img [src]="exec.photoPath" height="125" width="150">
       <div class="card-body">
         <h6 class="card-text">{{exec.organizationName}}</h6>

@@ -12,6 +12,8 @@ export class OrderComponent implements OnInit {
   orderId: number;
   order: Order = new Order();
   isLoading: boolean;
+  interval: number = 2500;
+  activeSlideIndex = 0;
 
   constructor(
     private route: ActivatedRoute,

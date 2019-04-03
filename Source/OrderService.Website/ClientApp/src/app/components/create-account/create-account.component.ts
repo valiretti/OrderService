@@ -40,6 +40,7 @@ export class CreateAccountComponent implements OnInit {
           this.router.navigate(['/sign-in']);
         },
         error => {
+          console.log(error);
           this.loading = false;
         });
   }

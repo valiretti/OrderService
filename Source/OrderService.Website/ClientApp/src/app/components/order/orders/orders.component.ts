@@ -45,5 +45,4 @@ export class OrdersComponent implements OnInit {
   open(id: number) {
     this.router.navigate(['/orders', id]);
   }
-
 }

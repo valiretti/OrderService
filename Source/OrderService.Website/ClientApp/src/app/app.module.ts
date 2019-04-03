@@ -26,6 +26,8 @@ import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { CreateExecutorComponent } from './components/executor/create-executor/create-executor.component';
 import { ExecutorsComponent } from './components/executor/executors/executors.component';
 import { OrderComponent } from './components/order/order/order.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { ExecutorComponent } from './components/executor/executor/executor.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { OrderComponent } from './components/order/order/order.component';
     CreateOrderComponent,
     CreateExecutorComponent,
     ExecutorsComponent,
-    OrderComponent
+    OrderComponent,
+    ExecutorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,6 +60,7 @@ import { OrderComponent } from './components/order/order/order.component';
     CollapseModule.forRoot(),
     PaginationModule.forRoot(),
     AngularFileUploaderModule,
+    CarouselModule.forRoot(),
   ],
   providers: [
     AuthService,

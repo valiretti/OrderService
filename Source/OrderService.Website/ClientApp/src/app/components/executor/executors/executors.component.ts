@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ExecutorService } from './../../../services/executor.service';
 import { ExecutorPage } from './../../../models/executorPage';
 import { Component, OnInit } from '@angular/core';
@@ -15,7 +16,8 @@ export class ExecutorsComponent implements OnInit {
   executors: ExecutorPage = new ExecutorPage();
 
   constructor(
-    private executorService: ExecutorService
+    private executorService: ExecutorService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -38,5 +40,9 @@ export class ExecutorsComponent implements OnInit {
           this.isLoading = false;
         }
       );
+  }
+
+  open(id: number) {
+    this.router.navigate(['/executors', id]);
   }
 }
