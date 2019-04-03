@@ -9,7 +9,7 @@ namespace OrderService.Logic.Services
 {
     public interface IExecutorService
     {
-        Task<Executor> Create(CreateExecutorModel item);
+        Task<ExecutorViewModel> Create(CreateExecutorModel item);
 
         Task Update(UpdateExecutorModel item);
 

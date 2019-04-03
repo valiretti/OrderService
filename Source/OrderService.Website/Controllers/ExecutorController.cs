@@ -26,9 +26,9 @@ namespace OrderService.Website.Controllers
         public async Task<IActionResult> Create([FromBody] CreateExecutorModel request)
         {
             request.UserId = User.GetSubjectId();
-            var order = await _executorService.Create(request);
+            var executor = await _executorService.Create(request);
 
-            return Ok(order);
+            return Ok(executor);
         }
 
         [HttpPut]
@@ -51,9 +51,9 @@ namespace OrderService.Website.Controllers
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id)
         {
-            var order = await _executorService.Get(id);
+            var executor = await _executorService.Get(id);
 
-            return order != null ? (IActionResult)Ok(order) : NotFound();
+            return executor != null ? (IActionResult)Ok(executor) : NotFound();
         }
 
         [HttpGet]

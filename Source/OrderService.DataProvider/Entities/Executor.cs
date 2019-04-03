@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OrderService.DataProvider.Entities
 {
@@ -14,7 +15,9 @@ namespace OrderService.DataProvider.Entities
         public string PhoneNumber { get; set; }
 
         public string Description { get; set; }
-        
+
+        public DateTime CreationDate { get; set; }
+
         public ICollection<Photo> Photos { get; set; }
 
         public int? WorkTypeId { get; set; }

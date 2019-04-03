@@ -30,7 +30,7 @@ namespace OrderService.Logic.Services
             _mapper = mapper;
         }
 
-        public async Task<Executor> Create(CreateExecutorModel item)
+        public async Task<ExecutorViewModel> Create(CreateExecutorModel item)
         {
             var executor = _mapper.Map<Executor>(item);
             var result = _validator.Validate(executor);
@@ -39,11 +39,13 @@ namespace OrderService.Logic.Services
                 throw new ValidationException(result.Errors);
             }
 
+            executor.CreationDate = DateTime.UtcNow;
+
             await AddPhotos(item, executor);
             await _repository.Create(executor);
             await _commitProvider.SaveAsync();
 
-            return executor;
+            return _mapper.Map<ExecutorViewModel>(executor);
         }
 
         public async Task Update(UpdateExecutorModel item)

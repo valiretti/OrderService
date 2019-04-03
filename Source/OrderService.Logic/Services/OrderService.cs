@@ -40,7 +40,7 @@ namespace OrderService.Logic.Services
             }
 
             order.CreationDate = DateTime.UtcNow;
-
+            
             await AddPhotos(item, order);
             await _orderRepository.Create(order);
             await _commitProvider.SaveAsync();
@@ -75,7 +75,7 @@ namespace OrderService.Logic.Services
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
                 .Where(o => o.ExecutorId == null)
-                 .OrderBy(x => x.CreationDate)
+                 .OrderByDescending(x => x.CreationDate)
                  .Skip(pageNumber * pageSize)
                  .Take(pageSize)
                  .ToListAsync();
@@ -106,7 +106,7 @@ namespace OrderService.Logic.Services
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
                 .Where(x => x.CustomerUserId == customerId)
-                .OrderBy(x => x.CreationDate)
+                .OrderByDescending(x => x.CreationDate)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
