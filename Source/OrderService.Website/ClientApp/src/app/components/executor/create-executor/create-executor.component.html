@@ -1,45 +1,56 @@
 <form [formGroup]="executorForm" (ngSubmit)="onSubmit()">
-    <h4>Become executor</h4>  
+  <h4>Become executor</h4>
 
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="organizationName">Organizacion name</label>
-        <div class="col-md-4">
-          <input type="text" formControlName="organizationName" class="form-control input-md" />
-          <span class="help-block">Write here the name of the organization or your full name</span>
-        </div>
-      </div>
-
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="workTypeId">Work type</label>
-      <div class="col-md-4">
-        <select class="form-control" formControlName="workTypeId">
-          <option *ngFor="let work of works" [value]="work.id">{{work.name}}</option>
-        </select>
-      </div>
-    </div>  
-    
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="description">Description</label>
-      <div class="col-md-4">
-        <textarea class="form-control" formControlName="description"></textarea>
-        <span class="help-block">Write here as much as possible information about you</span>
-      </div>
-    </div>
-    <label class="col-md-4">Upload your works</label>
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="organizationName">Organizacion name</label>
     <div class="col-md-4">
-      <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar (ApiResponse)="docUpload($event)">
-      </angular-file-uploader>
-    </div>
-
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="phoneNumber">Phone number</label>
-      <div class="col-md-4">
-        <input type="text" formControlName="phoneNumber" class="form-control input-md"
-          placeholder="+375 XX XXX XX XX" />
-        <span class="help-block">will be visible only for your customers</span>
+      <input type="text" formControlName="organizationName" class="form-control input-md"
+        [ngClass]="{ 'is-invalid': loading && executorForm.controls['organizationName'].errors }" />
+      <span class="help-block">Write here the name of the organization or your full name</span>
+      <div *ngIf="loading && executorForm.controls['organizationName'].errors" class="invalid-feedback">
+        Organizacion name is required.
       </div>
     </div>
-    <div class="form-group col-md-4">
-      <button [disabled]="!executorForm.valid" class="btn btn-primary">Become executor</button>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="workTypeId">Work type</label>
+    <div class="col-md-4">
+      <select class="form-control" formControlName="workTypeId">
+        <option *ngFor="let work of works" [value]="work.id">{{work.name}}</option>
+      </select>
     </div>
-  </form>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="description">Description</label>
+    <div class="col-md-4">
+      <textarea class="form-control" formControlName="description"
+        [ngClass]="{ 'is-invalid': loading && executorForm.controls['description'].errors }"></textarea>
+      <span class="help-block">Write here as much as possible information about you</span>
+      <div *ngIf="loading && executorForm.controls['description'].errors" class="invalid-feedback">
+        Description is required.
+      </div>
+    </div>
+  </div>
+  <label class="col-md-4">Upload your works</label>
+  <div class="col-md-4">
+    <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar (ApiResponse)="docUpload($event)">
+    </angular-file-uploader>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="phoneNumber">Phone number</label>
+    <div class="col-md-4">
+      <input type="text" formControlName="phoneNumber" class="form-control input-md" placeholder="+375 XX XXX XX XX"
+        [ngClass]="{ 'is-invalid': loading && executorForm.controls['phoneNumber'].errors }" />
+      <span class="help-block">will be visible only for your customers</span>
+      <div *ngIf="loading && executorForm.controls['phoneNumber'].errors" class="invalid-feedback">
+        Phone number is required.
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-md-4">
+    <button class="btn btn-primary">Become executor</button>
+  </div>
+</form>

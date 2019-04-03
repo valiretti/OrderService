@@ -29,11 +29,12 @@ export class CreateAccountComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
+
     if (this.registerForm.invalid) {
       return;
     }
 
-    this.loading = true;
     this.authService.register(this.registerForm.value)
       .subscribe(
         data => {

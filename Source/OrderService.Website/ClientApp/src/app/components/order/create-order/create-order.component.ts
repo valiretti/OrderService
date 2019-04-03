@@ -25,7 +25,7 @@ export class CreateOrderComponent implements OnInit {
     multiple: true,
     formatsAllowed: '.jpg,.png,.jpeg',
     maxSize: '5',
-    uploadAPI:  {
+    uploadAPI: {
       url: `${this.baseUrl}/api/photos`,
     },
     theme: 'dragNDrop',
@@ -41,7 +41,7 @@ export class CreateOrderComponent implements OnInit {
       afterUploadMsg_success: 'Successfully Uploaded !',
       afterUploadMsg_error: 'Upload Failed !'
     }
-};
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -76,16 +76,20 @@ export class CreateOrderComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.order = this.orderForm.value;
-    this.order.photos = this.images;
-    this.orderService.createOrder(this.order)
-      .subscribe(
-        data => {
-          this.router.navigate(['/orders']);
-        },
-        error => {
-          console.error(error);
-          this.loading = false;
-        });
+    if (this.orderForm.valid) {
+      this.order = this.orderForm.value;
+      this.order.photos = this.images;
+      this.orderService.createOrder(this.order)
+        .subscribe(
+          data => {
+            this.router.navigate(['/orders']);
+          },
+          error => {
+            console.error(error);
+            this.loading = false;
+          });
+    } else {
+      return;
+    }
   }
 }

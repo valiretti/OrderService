@@ -30,6 +30,7 @@ export class SignInComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.loading = true;
     if (this.signInForm.invalid) {
       return;
     }
@@ -51,5 +52,4 @@ export class SignInComponent implements OnInit {
       }
     );
   }
-
 }

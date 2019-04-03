@@ -4,7 +4,7 @@
   <div class="form-group">
     <label class="col-md-4 control-label" for="workTypeId">Work type</label>
     <div class="col-md-4">
-      <select class="form-control" formControlName="workTypeId" >
+      <select class="form-control" formControlName="workTypeId">
         <option *ngFor="let work of works" [value]="work.id">{{work.name}}</option>
       </select>
     </div>
@@ -13,48 +13,70 @@
   <div class="form-group">
     <label class="col-md-4 control-label" for="name">Name</label>
     <div class="col-md-4">
-      <input type="text" formControlName="name" class="form-control input-md" />
+      <input type="text" formControlName="name" class="form-control input-md"
+        [ngClass]="{ 'is-invalid': loading && orderForm.controls['name'].errors }" />
+      <div *ngIf="loading && orderForm.controls['name'].errors" class="invalid-feedback">
+        Name is required.
+      </div>
     </div>
   </div>
+
   <div class="form-group">
     <label class="col-md-4 control-label" for="description">Description</label>
     <div class="col-md-4">
-      <textarea class="form-control" formControlName="description"></textarea>
+      <textarea class="form-control" formControlName="description"
+        [ngClass]="{ 'is-invalid': loading && orderForm.controls['description'].errors }"></textarea>
+      <div *ngIf="loading && orderForm.controls['description'].errors" class="invalid-feedback">
+        Description is required.
+      </div>
     </div>
   </div>
+
   <label class="col-md-4">Upload your files</label>
   <div class="col-md-4">
     <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar (ApiResponse)="docUpload($event)">
     </angular-file-uploader>
   </div>
-  
+
   <div class="form-group">
     <label class="col-md-4 control-label" for="location">Location</label>
     <div class="col-md-4">
-      <input type="email" formControlName="location" class="form-control input-md" />
+      <input type="email" formControlName="location" class="form-control input-md"
+        [ngClass]="{ 'is-invalid': loading && orderForm.controls['location'].errors }" />
+      <div *ngIf="loading && orderForm.controls['location'].errors" class="invalid-feedback">
+        Location is required.
+      </div>
     </div>
   </div>
+
   <div class="form-group">
     <label class="col-md-4 control-label" for="finishDate">Finish date</label>
     <div class="col-md-4">
       <input type="date" formControlName="finishDate" class="form-control input-md" />
     </div>
   </div>
+
   <div class="form-group">
     <label class="col-md-4 control-label" for="price">Price</label>
     <div class="col-md-4">
       <input type="number" formControlName="price" class="form-control input-md" placeholder="Contract price" />
     </div>
   </div>
+
   <div class="form-group">
     <label class="col-md-4 control-label" for="customerPhoneNumber">Phone number</label>
     <div class="col-md-4">
       <input type="text" formControlName="customerPhoneNumber" class="form-control input-md"
-        placeholder="+375 XX XXX XX XX" />
+        placeholder="+375 XX XXX XX XX"
+        [ngClass]="{ 'is-invalid': loading && orderForm.controls['customerPhoneNumber'].errors }" />
       <span class="help-block">will be visible only for executor</span>
+      <div *ngIf="loading && orderForm.controls['customerPhoneNumber'].errors" class="invalid-feedback">
+        Phone number is required.
+      </div>
     </div>
   </div>
+
   <div class="form-group col-md-4">
-    <button [disabled]="!orderForm.valid" class="btn btn-primary">Create</button>
+    <button class="btn btn-primary">Create</button>
   </div>
 </form>

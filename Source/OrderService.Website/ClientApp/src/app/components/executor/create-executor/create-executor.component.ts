@@ -31,7 +31,7 @@ export class CreateExecutorComponent implements OnInit {
     multiple: true,
     formatsAllowed: '.jpg,.png,.jpeg',
     maxSize: '5',
-    uploadAPI:  {
+    uploadAPI: {
       url: `${this.baseUrl}/api/photos`,
     },
     theme: 'dragNDrop',
@@ -47,7 +47,7 @@ export class CreateExecutorComponent implements OnInit {
       afterUploadMsg_success: 'Successfully Uploaded !',
       afterUploadMsg_error: 'Upload Failed !'
     }
-};
+  };
 
   ngOnInit() {
     this.executorForm = this.formBuilder.group({
@@ -72,16 +72,20 @@ export class CreateExecutorComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.executor = this.executorForm.value;
-    this.executor.photos = this.images;
-    this.executorService.createExecutor(this.executor)
-      .subscribe(
-        data => {
-          this.router.navigate(['/executors']);
-        },
-        error => {
-          this.loading = false;
-        });
+    if (this.executorForm.valid) {
+      this.executor = this.executorForm.value;
+      this.executor.photos = this.images;
+      this.executorService.createExecutor(this.executor)
+        .subscribe(
+          data => {
+            this.router.navigate(['/executors']);
+          },
+          error => {
+            this.loading = false;
+          });
+    } else {
+      return;
+    }
   }
 
 }
