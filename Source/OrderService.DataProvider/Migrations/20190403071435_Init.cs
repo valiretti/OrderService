@@ -178,6 +178,7 @@ namespace OrderService.DataProvider.Migrations
                     OrganizationName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     WorkTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -206,6 +207,7 @@ namespace OrderService.DataProvider.Migrations
                     ExecutorId = table.Column<int>(nullable: true),
                     CustomerUserId = table.Column<string>(nullable: true),
                     CustomerPhoneNumber = table.Column<string>(nullable: true),
+                    Status = table.Column<byte>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     FinishDate = table.Column<DateTime>(nullable: true),
                     Location = table.Column<string>(nullable: true),

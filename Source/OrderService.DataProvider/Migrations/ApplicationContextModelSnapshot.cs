@@ -156,6 +156,8 @@ namespace OrderService.DataProvider.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<string>("Description");
 
                     b.Property<string>("OrganizationName");
@@ -221,6 +223,8 @@ namespace OrderService.DataProvider.Migrations
                     b.Property<string>("Name");
 
                     b.Property<decimal?>("Price");
+
+                    b.Property<byte>("Status");
 
                     b.Property<int?>("WorkTypeId");
 

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace OrderService.DataProvider.Entities
 {
-   public enum Status
+   public enum Status : byte
     {
         Active = 0,
         Confirmed = 1,

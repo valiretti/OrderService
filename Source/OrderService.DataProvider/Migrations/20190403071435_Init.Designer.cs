@@ -10,7 +10,7 @@ using OrderService.DataProvider;
 namespace OrderService.DataProvider.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190329064945_Init")]
+    [Migration("20190403071435_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,6 +158,8 @@ namespace OrderService.DataProvider.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<string>("Description");
 
                     b.Property<string>("OrganizationName");
@@ -223,6 +225,8 @@ namespace OrderService.DataProvider.Migrations
                     b.Property<string>("Name");
 
                     b.Property<decimal?>("Price");
+
+                    b.Property<byte>("Status");
 
                     b.Property<int?>("WorkTypeId");
 
