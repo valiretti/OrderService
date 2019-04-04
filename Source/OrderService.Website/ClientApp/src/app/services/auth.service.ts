@@ -19,6 +19,7 @@ export const authConfig: AuthConfig = {
 export class AuthService {
   loggedInSubject: BehaviorSubject<boolean>;
   private currentUserSubject: BehaviorSubject<any>;
+  userRoleSubject: BehaviorSubject<string>;
   private baseUrl: string = environment.baseUrl;
 
   constructor(
@@ -28,6 +29,7 @@ export class AuthService {
     this.configureWithNewConfigApi();
 
     this.loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+    this.userRoleSubject = new BehaviorSubject<string>(null);
     this.currentUserSubject = new BehaviorSubject<any>(
       this.authService.getIdentityClaims() as any
     );
@@ -35,6 +37,7 @@ export class AuthService {
 
   private configureWithNewConfigApi() {
     this.authService.configure(authConfig);
+    this.authService.setupAutomaticSilentRefresh();
     this.authService.tokenValidationHandler = new JwksValidationHandler();
     this.authService.loadDiscoveryDocument(`${this.baseUrl}/.well-known/openid-configuration`);
   }
@@ -51,6 +54,14 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/api/users/register`, model);
   }
 
+  currentUserObservable(): Observable<any> {
+    return this.currentUserSubject.asObservable();
+}
+
+userRoleObservable(): Observable<string> {
+  return this.userRoleSubject.asObservable();
+}
+
   signIn(email: string, password: string): Observable<any> {
     const signinObservable = from(
       this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(
@@ -63,6 +74,7 @@ export class AuthService {
       (res: any) => {
         this.loggedInSubject.next(true);
         this.currentUserSubject.next(res);
+        this.userRoleSubject.next(res.role);
       }
     );
 

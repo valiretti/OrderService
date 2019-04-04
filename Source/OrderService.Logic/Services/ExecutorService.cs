@@ -17,14 +17,16 @@ namespace OrderService.Logic.Services
     {
         private readonly IRepository<Executor> _repository;
         private readonly IPhotoService _photoService;
+        private readonly IUserService _userService;
         private readonly ICommitProvider _commitProvider;
         private readonly IValidator<Executor> _validator;
         private readonly IMapper _mapper;
 
-        public ExecutorService(IRepository<Executor> repository, IPhotoService photoService, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
+        public ExecutorService(IRepository<Executor> repository, IPhotoService photoService, IUserService userService, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
         {
             _repository = repository;
             _photoService = photoService;
+            _userService = userService;
             _commitProvider = commitProvider;
             _validator = validator;
             _mapper = mapper;
@@ -44,6 +46,8 @@ namespace OrderService.Logic.Services
             await AddPhotos(item, executor);
             await _repository.Create(executor);
             await _commitProvider.SaveAsync();
+            await _userService.SetExecutorRole(item.UserId);
+
 
             return _mapper.Map<ExecutorViewModel>(executor);
         }
@@ -113,7 +117,7 @@ namespace OrderService.Logic.Services
             await _repository.Delete(id);
             await _commitProvider.SaveAsync();
         }
-        
+
         private async Task AddPhotos(CreateExecutorModel item, Executor executor)
         {
             if (item.Photos != null)

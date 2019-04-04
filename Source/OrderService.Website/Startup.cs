@@ -40,10 +40,10 @@ namespace OrderService.Website
             var o = new DbContextOptionsBuilder<ApplicationContext>();
             o.UseSqlServer(connectionString);
 
-            using (var ctx = new ApplicationContext(o.Options))
-            {
-                ctx.Database.Migrate();
-            }
+            //using (var ctx = new ApplicationContext(o.Options))
+            //{
+            //    ctx.Database.Migrate();
+            //}
 
             services.AddIdentity<User, IdentityRole>(opt =>
                 {

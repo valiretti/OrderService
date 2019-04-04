@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 
@@ -7,12 +8,20 @@ namespace OrderService.Website.Auth
     public static class Config
     {
         public const string ApiName = "api";
+        public const string Resource = "advanced";
 
         public static IEnumerable<ApiResource> GetApis()
         {
             return new List<ApiResource>
             {
                 new ApiResource(ApiName, "API")
+                {
+                    UserClaims = new[]
+                    {
+                        JwtClaimTypes.Role
+                    }
+
+                }
             };
         }
 
@@ -32,7 +41,8 @@ namespace OrderService.Website.Auth
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        ApiName
+                        ApiName,
+                        Resource
                     },
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
@@ -51,7 +61,11 @@ namespace OrderService.Website.Auth
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email()
+                new IdentityResources.Email(),
+                new IdentityResource(Resource, new []
+                {
+                    JwtClaimTypes.Role
+                })
             };
         }
     }

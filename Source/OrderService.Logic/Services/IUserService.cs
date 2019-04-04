@@ -9,5 +9,7 @@ namespace OrderService.Logic.Services
     public interface IUserService
     {
         Task<string> Register(RegisterViewModel model);
+
+        Task SetExecutorRole(string id);
     }
 }
