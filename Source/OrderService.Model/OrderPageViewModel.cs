@@ -1,5 +1,5 @@
 ﻿using System;
-using OrderService.DataProvider.Entities;
+using OrderService.Model.Entities;
 
 namespace OrderService.Model
 {

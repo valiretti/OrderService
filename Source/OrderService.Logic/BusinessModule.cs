@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using FluentValidation;
-using OrderService.DataProvider.Entities;
 using OrderService.Logic.Validators;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic
 {

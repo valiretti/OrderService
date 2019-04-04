@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OrderService.DataProvider.Entities
+﻿namespace OrderService.Model.Entities
 {
     public class Photo
     {

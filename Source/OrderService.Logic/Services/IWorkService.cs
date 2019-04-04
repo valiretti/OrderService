@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OrderService.DataProvider.Entities;
 using OrderService.Model;
 
 namespace OrderService.Logic.Services

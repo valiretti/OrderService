@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using OrderService.DataProvider.Entities;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Profiles
 {

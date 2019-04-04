@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using OrderService.DataProvider.Entities;
 using OrderService.DataProvider.Repositories;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Services
 {

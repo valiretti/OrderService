@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using FluentValidation;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
-using OrderService.DataProvider.Entities;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Services
 {

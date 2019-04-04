@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using OrderService.DataProvider.Entities;
+using OrderService.Model.Entities;
 
 namespace OrderService.Website.Auth
 {

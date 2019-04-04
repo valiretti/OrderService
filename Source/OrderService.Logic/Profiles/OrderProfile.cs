@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using AutoMapper;
-using OrderService.DataProvider.Entities;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Profiles
 {

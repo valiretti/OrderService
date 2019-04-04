@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OrderService.DataProvider.Entities
+namespace OrderService.Model.Entities
 {
     public class Order
     {

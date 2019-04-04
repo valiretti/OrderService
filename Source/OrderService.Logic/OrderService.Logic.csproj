@@ -8,17 +8,12 @@
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="FluentValidation" Version="8.2.0" />
+    <PackageReference Include="IdentityModel" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OrderService.DataProvider\OrderService.DataProvider.csproj" />
     <ProjectReference Include="..\OrderService.Model\OrderService.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="IdentityModel">
-      <HintPath>..\..\..\..\..\.nuget\packages\identitymodel\3.10.6\lib\netstandard2.0\IdentityModel.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

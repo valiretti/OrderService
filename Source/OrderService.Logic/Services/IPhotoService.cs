@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OrderService.DataProvider.Entities;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Services
 {

@@ -1,5 +1,5 @@
 ﻿
-namespace OrderService.DataProvider.Entities
+namespace OrderService.Model.Entities
 {
    public enum Status : byte
     {

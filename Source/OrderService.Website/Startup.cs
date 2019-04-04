@@ -14,8 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderService.DataProvider;
-using OrderService.DataProvider.Entities;
 using OrderService.Logic;
+using OrderService.Model.Entities;
 using OrderService.Website.Auth;
 using OrderService.Website.Filters;
 

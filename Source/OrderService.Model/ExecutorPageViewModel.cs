@@ -1,6 +1,4 @@
-﻿using OrderService.DataProvider.Entities;
-
-namespace OrderService.Model
+﻿namespace OrderService.Model
 {
     public class ExecutorPageViewModel
     {

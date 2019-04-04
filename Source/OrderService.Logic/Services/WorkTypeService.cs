@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using OrderService.DataProvider.Entities;
 using OrderService.DataProvider.Repositories;
 using OrderService.Model;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Services
 {

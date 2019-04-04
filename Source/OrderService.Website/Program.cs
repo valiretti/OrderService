@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OrderService.DataProvider;
-using OrderService.DataProvider.Entities;
+using OrderService.Model.Entities;
 using OrderService.Website.Auth;
 
 namespace OrderService.Website

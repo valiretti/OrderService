@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using OrderService.DataProvider.Entities;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Validators
 {

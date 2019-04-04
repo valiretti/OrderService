@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using OrderService.DataProvider.Entities;
 using OrderService.DataProvider.Repositories;
+using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Validators
 {

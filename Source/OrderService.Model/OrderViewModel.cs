@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using OrderService.DataProvider.Entities;
+using OrderService.Model.Entities;
 
 namespace OrderService.Model
 {

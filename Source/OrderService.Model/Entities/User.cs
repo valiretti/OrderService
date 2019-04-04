@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace OrderService.DataProvider.Entities
+namespace OrderService.Model.Entities
 {
     public class User : IdentityUser
     {
