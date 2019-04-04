@@ -10,7 +10,7 @@ export const authConfig: AuthConfig = {
   redirectUri: window.location.origin + '/counter',
   clientId: 'angular',
   dummyClientSecret: 'secret',
-  scope: 'openid profile email api offline_access',
+  scope: 'openid profile email api advanced offline_access',
   oidc: false,
   strictDiscoveryDocumentValidation: false
 };
@@ -93,25 +93,23 @@ userRoleObservable(): Observable<string> {
     return logoutObservable;
   }
 
-  refreshUserInfo() {
-    this.authService
-      .loadUserProfile()
-      .then(info => {
-        this.currentUserSubject.next(info);
-      })
-      .catch(err => {
-        console.error('error refreshed ' + err);
-      });
+  async refreshUserInfo() {
+    try {
+      const info = await this.authService
+        .loadUserProfile();
+      this.currentUserSubject.next(info);
+    } catch (err) {
+      console.error('error refreshed ' + err);
+    }
   }
 
-  refreshToken() {
-    this.authService
-      .refreshToken()
-      .then(() => {
-        this.refreshUserInfo();
-      })
-      .catch(err => {
-        console.error('error refreshed Token' + err);
-      });
+  async refreshToken() {
+    try {
+      await this.authService
+        .refreshToken();
+      this.refreshUserInfo();
+    } catch (err) {
+      console.error('error refreshed Token' + err);
+    }
   }
 }

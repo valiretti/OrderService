@@ -73,7 +73,6 @@ namespace OrderService.Logic.Services
             }
 
             await _manager.AddToRoleAsync(user, role.Name);
-            //await _manager.AddClaimAsync(user, new Claim(JwtClaimTypes.Role, role.Name));
         }
     }
 }

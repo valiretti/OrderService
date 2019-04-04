@@ -27,6 +27,7 @@ namespace OrderService.Website
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ApplicationContext>();
                 context.Database.Migrate();
+
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
@@ -38,6 +39,9 @@ namespace OrderService.Website
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
+
+                var hostingEnvironment = services.GetRequiredService<IHostingEnvironment>();
+                Directory.CreateDirectory(Path.Combine(hostingEnvironment.WebRootPath, "Files"));
             }
 
             host.Run();
