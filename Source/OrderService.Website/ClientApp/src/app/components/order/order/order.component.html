@@ -12,14 +12,17 @@
   <div class="row">
     <div class="col-md-6 ml-md-auto">{{ order.description }}</div>
     <div class="col-md-3 ml-md-auto">
-      <div class="col-sm-4">
-        {{ order.workTypeName }}
+      <div>
+        <i class="fas fa-briefcase"></i>
+        {{ order.workTypeName || "other"}}
       </div>
-      <div class="col-sm-4">
+      <div>
+        <i class="fas fa-map-marker-alt"></i>
         {{ order.location }}
       </div>
-      <div class="col-sm-4">
-        {{ "Deadline: " + (order.finishDate | date: "MM.d.y") }}
+      <div>
+        <i class="far fa-clock"></i>
+        {{ "Deadline: " + ((order.finishDate | date: "MM.d.y") || "none") }}
       </div>
     </div>
   </div>

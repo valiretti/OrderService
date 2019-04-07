@@ -17,6 +17,10 @@ export class OrderService {
     return this.http.get<OrderPage>(`${this.baseUrl}/api/orders?page=${page}&count=${count}`);
   }
 
+  getOrdersByCustomerId(page: number, count: number) {
+    return this.http.get<OrderPage>(`${this.baseUrl}/api/orders/user?page=${page}&count=${count}`);
+  }
+
   createOrder(order: NewOrder) {
     return this.http.post(`${this.baseUrl}/api/orders`, order);
   }

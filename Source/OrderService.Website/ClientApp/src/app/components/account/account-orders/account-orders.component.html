@@ -1,32 +1,41 @@
-
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <div class="row">
-      <div class="col-md-4" *ngFor="let ord of orders.orders">
-        <div class="card mb-4 shadow-sm hover-card" (click) = "open(ord.id)">
-          <img [src]="ord.photoPath" height="225" width="250">
-          <div class="card-body">
-            <h4 class="card-text">{{ord.name}}</h4>
-            <span class="d-flex justify-content-end">{{ (ord.price | currency) || "contract price"}}</span>
-            <p class="card-text">{{(ord.description | slice:0:110) + '...'}}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <small class="text-muted">
-                <i class="fas fa-briefcase"></i>
-                {{ord.workTypeName}}</small>
-              <small class="text-muted">
-                <span class='glyphicon glyphicon-globe'></span>
-                {{ord.location}}</small>
-              <small class="text-muted" *ngIf="ord.finishDate">
-                <span class='glyphicon glyphicon-globe'></span>
-                {{ord.finishDate | date: "MM.d.y"}}</small>
-            </div>
-          </div>
+<div class="row" *ngIf="orders.totalCount == 0"> Order list is empty </div>
+<div class="row" *ngIf="orders.totalCount > 0" >
+  <div class="col-md-4" *ngFor="let ord of orders.orders">
+    <div class="card mb-4 shadow-sm hover-card" (click) = "open(ord.id)">
+      <div>
+        <img class="order-image" [src]="ord.photoPath" height="210" width="210">
+        <span class="d-flex justify-content-end price">{{ (ord.price | currency) || "contract price"}}</span>
+      </div>
+      <div class="card-body">
+        <h4 class="card-text order-name">{{ord.name}}</h4>
+        <p clampy=2 class="card-text description">{{ord.description}}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">
+            <i class="fas fa-briefcase"></i>
+            {{ord.workTypeName}}</small>
+          <small class="text-muted">
+            <i class="fas fa-map-marker-alt"></i>
+            {{ord.location}}</small>
+          <small class="text-muted" *ngIf="ord.finishDate">
+            <i class="far fa-clock"></i>
+            {{ord.finishDate | date: "MM.d.y"}}</small>
         </div>
       </div>
     </div>
-
-    <pagination *ngIf="totalCount > pageSize" class="msg-paging" [totalItems]="totalCount" [itemsPerPage]="pageSize"
-      [maxSize]="8" [(ngModel)]="page" [disabled]="isLoading" (pageChanged)="loadOrders($event.page)"
-      pageBtnClass="msg-page-item" previousText="🡠" nextText="🡢">
-    </pagination>
   </div>
+</div>
 
+  <pagination
+    *ngIf="totalCount > pageSize"
+    class="msg-paging"
+    [totalItems]="totalCount"
+    [itemsPerPage]="pageSize"
+    [maxSize]="8"
+    [(ngModel)]="page"
+    [disabled]="isLoading"
+    (pageChanged)="loadOrders($event.page)"
+    pageBtnClass="msg-page-item"
+    previousText="🡠"
+    nextText="🡢"
+  >
+  </pagination>

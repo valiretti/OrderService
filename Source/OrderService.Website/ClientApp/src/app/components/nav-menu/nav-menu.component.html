@@ -9,7 +9,7 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" routerLink="/orders" routerLinkActive="active">
-          <span class='glyphicon glyphicon-tasks'></span>
+          <i class="fas fa-tasks"></i>
           Orders</a>
       </li>
       <li class="nav-item">
@@ -25,22 +25,22 @@
           Create order</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/executors/create" routerLinkActive="active">
-          <span class='glyphicon glyphicon-user'></span>
+        <a class="nav-link" *ngIf="userRole !== 'Executor'" routerLink="/executors/create" routerLinkActive="active">
           Become executor</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" routerLink="/account" routerLinkActive="active">
-            <span class='glyphicon glyphicon-user'></span>
+            <i class="fas fa-user-circle"></i>
             My account</a>
         </li>
       <li class="nav-item ">
         <a class="nav-link" *ngIf="!isLogIn" routerLink="/sign-in" routerLinkActive="active">
-          <span class='glyphicon glyphicon-log-in'></span> Sign-in</a>
+         <i class="fas fa-sign-in-alt"></i> Sign-in
+        </a>
       </li>
       <li class="nav-item ">
         <a class="nav-link" *ngIf="isLogIn" (click)=signOut() href="">
-          <span class='glyphicon glyphicon-log-out'></span> Sign-out
+         <i class="fas fa-sign-out-alt"></i> Sign-out
         </a>
       </li>
     </ul>

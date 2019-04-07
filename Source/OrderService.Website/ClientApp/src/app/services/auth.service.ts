@@ -17,9 +17,9 @@ export const authConfig: AuthConfig = {
 
 @Injectable()
 export class AuthService {
-  loggedInSubject: BehaviorSubject<boolean>;
+  private loggedInSubject: BehaviorSubject<boolean>;
   private currentUserSubject: BehaviorSubject<any>;
-  userRoleSubject: BehaviorSubject<string>;
+  private userRoleSubject: BehaviorSubject<string>;
   private baseUrl: string = environment.baseUrl;
 
   constructor(
@@ -29,10 +29,9 @@ export class AuthService {
     this.configureWithNewConfigApi();
 
     this.loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
-    this.userRoleSubject = new BehaviorSubject<string>(null);
-    this.currentUserSubject = new BehaviorSubject<any>(
-      this.authService.getIdentityClaims() as any
-    );
+    const user: any = this.authService.getIdentityClaims();
+    this.userRoleSubject = new BehaviorSubject<string>(user && user.role);
+    this.currentUserSubject = new BehaviorSubject<any>(user);
   }
 
   private configureWithNewConfigApi() {
@@ -44,6 +43,10 @@ export class AuthService {
 
   get accessToken() {
     return this.authService.getAccessToken();
+  }
+
+  isLoggedInObservable(): Observable<boolean> {
+    return this.loggedInSubject;
   }
 
   isAuthenticated(): boolean {
@@ -95,9 +98,10 @@ userRoleObservable(): Observable<string> {
 
   async refreshUserInfo() {
     try {
-      const info = await this.authService
+      const info: any = await this.authService
         .loadUserProfile();
       this.currentUserSubject.next(info);
+      this.userRoleSubject.next(info.role);
     } catch (err) {
       console.error('error refreshed ' + err);
     }

@@ -1,3 +1,20 @@
 .hover-card{
     cursor: pointer;
 }
+
+.executor-image {
+  float: left;
+}
+
+.executor-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.description {
+  line-height: 1.2;
+  height: 3.6em;
+  overflow: hidden;
+}

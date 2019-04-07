@@ -1,29 +1,32 @@
 <div class="container" *ngIf="!isLoading">
-    <div class="row justify-content-center">
-        <h2>{{executor.organizationName}}</h2>
+  <div class="row justify-content-center">
+    <h2>{{ executor.organizationName }}</h2>
+  </div>
+  <hr width="1000" color="lightgrey" />
+  <div class="row">
+    <div class="col-md-6 ml-md-auto">{{ executor.description }}</div>
+    <div class="col-md-3 ml-md-auto">
+      <div>
+        <i class="fas fa-briefcase"></i>
+        {{ executor.workTypeName || "other" }}
+      </div>
     </div>
-    <hr width="1000" color="lightgrey" />
-    <div class="row">
-        <div class="col-md-6 ml-md-auto"> {{executor.description}} </div>
-        <div class="col-md-3 ml-md-auto">
-            <div class="col-sm-4">
-                {{executor.workTypeName}}
-            </div>
-        </div>
+  </div>
+  <div class="row justify-content-center carousel">
+    <div class="col-md-4">
+      <carousel [interval]="interval" [(activeSlide)]="activeSlideIndex">
+        <slide *ngFor="let path of executor.photoPaths; let index = index">
+          <img
+            [src]="path"
+            alt="image slide"
+            style="display: block; width: 100%;"
+            class="img-responsive center-block"
+          />
+          <div class="carousel-caption" *ngIf="executor.photoPaths.length > 1">
+            <h4>Slide {{ index + 1 }}</h4>
+          </div>
+        </slide>
+      </carousel>
     </div>
-    <div class="row justify-content-center carousel">
-        <div class="col-md-4">
-            <carousel [interval]="interval" [(activeSlide)]="activeSlideIndex">
-                <slide *ngFor="let path of executor.photoPaths; let index=index">
-                    <img [src]="path" alt="image slide" style="display: block; width: 100%;"
-                        class="img-responsive center-block">
-                    <div class="carousel-caption" *ngIf="executor.photoPaths.length > 1">
-                        <h4>Slide {{index + 1}}</h4>
-                    </div>
-                </slide>
-            </carousel>
-        </div>
-    </div>
+  </div>
 </div>
-
-<div>{{user?.role}}</div>

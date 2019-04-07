@@ -2,14 +2,14 @@
 <div class="row">
   <div class="col-md-3" *ngFor="let exec of executors.executors">
     <div class="card mb-3 shadow-sm hover-card" (click) = "open(exec.id)">
-      <img [src]="exec.photoPath" height="125" width="150">
+      <img class="executor-image" [src]="exec.photoPath" height="125" width="150">
       <div class="card-body">
-        <h6 class="card-text">{{exec.organizationName}}</h6>
-        <p class="card-text">{{(exec.description | slice:0:110) + '...'}}</p>
+        <h6 class="card-text executor-name">{{exec.organizationName}}</h6>
+        <p class="card-text description">{{exec.description}}</p>
         <div class="d-flex justify-content-between align-items-center">
           <small class="text-muted">
             <i class="fas fa-briefcase"></i>
-            {{exec.workTypeName}}</small>          
+            {{exec.workTypeName || 'other'}}</small>
         </div>
       </div>
     </div>
@@ -17,6 +17,6 @@
 </div>
 
 <pagination *ngIf="totalCount > pageSize" class="msg-paging" [totalItems]="totalCount" [itemsPerPage]="pageSize"
-  [maxSize]="8" [(ngModel)]="page" [disabled]="isLoading" (pageChanged)="loadExecutorss($event.page)"
+  [maxSize]="8" [(ngModel)]="page" [disabled]="isLoading" (pageChanged)="loadExecutors($event.page)"
   pageBtnClass="msg-page-item" previousText="🡠" nextText="🡢">
 </pagination>
