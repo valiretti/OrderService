@@ -14,10 +14,14 @@ namespace OrderService.Logic.Services
     {
         private readonly IRepository<WorkType> _repository;
         private readonly ICommitProvider _commitProvider;
-        private readonly IValidator<WorkType> _validator;
+        private readonly IValidator<WorkTypeViewModel> _validator;
         private readonly IMapper _mapper;
 
-        public WorkTypeService(IRepository<WorkType> repository, ICommitProvider commitProvider, IValidator<WorkType> validator, IMapper mapper)
+        public WorkTypeService(
+            IRepository<WorkType> repository,
+            ICommitProvider commitProvider,
+            IValidator<WorkTypeViewModel> validator,
+            IMapper mapper)
         {
             _repository = repository;
             _commitProvider = commitProvider;
@@ -38,13 +42,13 @@ namespace OrderService.Logic.Services
 
         public async Task Update(WorkTypeViewModel workType)
         {
+            CheckWorkType(workType);
             var type = _repository.GetAll().SingleOrDefault(o => o.Id == workType.Id);
             if (type == null)
             {
                 throw new ValidationException("The work type doesn't exist");
             }
 
-            CheckWorkType(workType);
             type.Name = workType.Name;
             await _commitProvider.SaveAsync();
         }

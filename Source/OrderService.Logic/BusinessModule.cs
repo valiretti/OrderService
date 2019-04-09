@@ -15,10 +15,10 @@ namespace OrderService.Logic
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<OrderValidator>().As<IValidator<Order>>().InstancePerLifetimeScope();
-            builder.RegisterType<ExecutorValidator>().As<IValidator<Executor>>().InstancePerLifetimeScope();
+            builder.RegisterType<OrderValidator>().As<IValidator<CreateOrderModel>>().InstancePerLifetimeScope();
+            builder.RegisterType<ExecutorValidator>().As<IValidator<CreateExecutorModel>>().InstancePerLifetimeScope();
             builder.RegisterType<RegistrationViewModelValidator>().As<IValidator<RegisterViewModel>>().InstancePerLifetimeScope();
-            builder.RegisterType<WorkTypeValidator>().As<IValidator<WorkType>>().InstancePerLifetimeScope();
+            builder.RegisterType<WorkTypeValidator>().As<IValidator<WorkTypeViewModel>>().InstancePerLifetimeScope();
 
             base.Load(builder);
         }

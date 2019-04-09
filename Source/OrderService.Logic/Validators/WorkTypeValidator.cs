@@ -2,11 +2,12 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataProvider.Repositories;
+using OrderService.Model;
 using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Validators
 {
-    public class WorkTypeValidator : AbstractValidator<WorkType>
+    public class WorkTypeValidator : AbstractValidator<WorkTypeViewModel>
     {
         public WorkTypeValidator(IRepository<WorkType> repository)
         {

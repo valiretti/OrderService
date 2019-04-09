@@ -16,10 +16,15 @@ namespace OrderService.Logic.Services
         private readonly IRepository<Order> _orderRepository;
         private readonly IPhotoService _photoService;
         private readonly ICommitProvider _commitProvider;
-        private readonly IValidator<Order> _validator;
+        private readonly IValidator<CreateOrderModel> _validator;
         private readonly IMapper _mapper;
 
-        public OrderService(IRepository<Order> orderRepository, IPhotoService photoService, ICommitProvider commitProvider, IValidator<Order> validator, IMapper mapper)
+        public OrderService(
+            IRepository<Order> orderRepository,
+            IPhotoService photoService,
+            ICommitProvider commitProvider,
+            IValidator<CreateOrderModel> validator,
+            IMapper mapper)
         {
             _orderRepository = orderRepository;
             _photoService = photoService;

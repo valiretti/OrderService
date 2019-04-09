@@ -17,10 +17,16 @@ namespace OrderService.Logic.Services
         private readonly IPhotoService _photoService;
         private readonly IUserService _userService;
         private readonly ICommitProvider _commitProvider;
-        private readonly IValidator<Executor> _validator;
+        private readonly IValidator<CreateExecutorModel> _validator;
         private readonly IMapper _mapper;
 
-        public ExecutorService(IRepository<Executor> repository, IPhotoService photoService, IUserService userService, ICommitProvider commitProvider, IValidator<Executor> validator, IMapper mapper)
+        public ExecutorService(
+            IRepository<Executor> repository,
+            IPhotoService photoService,
+            IUserService userService,
+            ICommitProvider commitProvider,
+            IValidator<CreateExecutorModel> validator,
+            IMapper mapper)
         {
             _repository = repository;
             _photoService = photoService;
