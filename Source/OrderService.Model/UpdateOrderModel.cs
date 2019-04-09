@@ -10,5 +10,7 @@ namespace OrderService.Model
        public int Id { get; set; }
 
        public Status Status { get; set; }
+
+       public string[] ExistingPhotos { get; set; }
     }
 }

@@ -8,5 +8,9 @@ namespace OrderService.Logic.Services
         Task<string> Register(RegisterViewModel model);
 
         Task SetExecutorRole(string id);
+
+        Task ChangePassword(string userId, string password);
+
+        Task ChangeProfile(UpdateProfileModel model);
     }
 }

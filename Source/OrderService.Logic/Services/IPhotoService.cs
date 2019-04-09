@@ -10,5 +10,9 @@ namespace OrderService.Logic.Services
         Task<IEnumerable<int>> Create(CreatePhotoModel item);
 
         Task<IEnumerable<Photo>> GetByIds(IEnumerable<int> ids);
+
+        Task DeleteAllPhotosByOrderId(int orderId);
+
+        Task DeletePhotosByPaths(IEnumerable<string> existingIds, int orderId);
     }
 }

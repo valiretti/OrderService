@@ -63,6 +63,15 @@ namespace OrderService.Logic.Services
                 throw new ValidationException(result.Errors);
             }
 
+            if (item.ExistingPhotos == null)
+            {
+                await _photoService.DeleteAllPhotosByOrderId(item.Id);
+            }
+            else
+            {
+                await _photoService.DeletePhotosByPaths(item.ExistingPhotos, int orderId);
+            }
+
             await AddPhotos(item, newOrder);
             _orderRepository.Update(newOrder);
             await _commitProvider.SaveAsync();
