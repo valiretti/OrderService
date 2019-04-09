@@ -75,7 +75,7 @@ namespace OrderService.Logic.Services
             _mapper.Map(item, executor);
             if (item.ExistingPhotos != null)
             {
-                await _photoService.DeletePhotosByPathsByOrderId(item.ExistingPhotos, item.Id);
+                await _photoService.DeletePhotosByPathsByExecutorId(item.ExistingPhotos, item.Id);
             }
 
             await AddPhotos(item, executor);
@@ -109,11 +109,6 @@ namespace OrderService.Logic.Services
                 .SingleOrDefaultAsync(o => o.Id == id);
 
             return executor == null ? null : _mapper.Map<ExecutorViewModel>(executor);
-        }
-
-        public Task GetExecutorRequests(int executorId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task Delete(int id)

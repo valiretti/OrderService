@@ -224,7 +224,7 @@ namespace OrderService.DataProvider.Migrations
 
                     b.Property<decimal?>("Price");
 
-                    b.Property<byte>("Status");
+                    b.Property<byte>("OrderStatus");
 
                     b.Property<int?>("WorkTypeId");
 

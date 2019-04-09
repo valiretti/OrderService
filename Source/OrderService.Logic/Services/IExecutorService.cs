@@ -13,8 +13,6 @@ namespace OrderService.Logic.Services
 
         Task<ExecutorViewModel> Get(int id);
 
-        Task GetExecutorRequests(int executorId);
-
         Task Delete(int id);
     }
 }

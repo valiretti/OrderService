@@ -15,7 +15,7 @@ namespace OrderService.Model.Entities
 
         public string CustomerPhoneNumber { get; set; }
 
-        public Status Status { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         
         public DateTime CreationDate { get; set; }
 

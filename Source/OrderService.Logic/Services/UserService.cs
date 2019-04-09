@@ -141,5 +141,16 @@ namespace OrderService.Logic.Services
                 await _manager.AddClaimAsync(user, new Claim(claimType, value));
             }
         }
+
+        public async Task<int> GetExecutorIdByUserId(string userId)
+        {
+            var user = await _manager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new ValidationException($"The user doesn't exist");
+            }
+
+            return user.Executor.Id;
+        }
     }
 }

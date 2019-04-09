@@ -1,7 +1,7 @@
 ﻿
 namespace OrderService.Model.Entities
 {
-   public enum Status : byte
+   public enum OrderStatus : byte
     {
         Active = 0,
         Confirmed = 1,

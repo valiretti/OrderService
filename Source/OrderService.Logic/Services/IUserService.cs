@@ -12,5 +12,7 @@ namespace OrderService.Logic.Services
         Task ChangePassword(string userId, string password);
 
         Task ChangeProfile(UpdateProfileModel model);
+
+        Task<int> GetExecutorIdByUserId(string userId);
     }
 }

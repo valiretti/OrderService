@@ -43,7 +43,7 @@ namespace OrderService.Logic.Services
 
             var order = _mapper.Map<Order>(item);
             order.CreationDate = DateTime.UtcNow;
-            order.Status = Status.Active;
+            order.OrderStatus = OrderStatus.Active;
 
             await AddPhotos(item, order);
             await _orderRepository.Create(order);
@@ -84,7 +84,7 @@ namespace OrderService.Logic.Services
             var orders = await _orderRepository.GetAll()
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
-                .Where(o => o.Status == Status.Active && o.ExecutorId == null)
+                .Where(o => o.OrderStatus == OrderStatus.Active && o.ExecutorId == null)
                  .OrderByDescending(x => x.CreationDate)
                  .Skip(pageNumber * pageSize)
                  .Take(pageSize)
@@ -138,7 +138,7 @@ namespace OrderService.Logic.Services
                 throw new ValidationException("The order doesn't exist");
             }
 
-            order.Status = Status.Confirmed;
+            order.OrderStatus = OrderStatus.Confirmed;
             order.ExecutorId = executorId;
             await _commitProvider.SaveAsync();
         }

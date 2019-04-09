@@ -1,4 +1,4 @@
-export enum Status {
+export enum OrderStatus {
     Active = 0,
     Confirmed = 1,
     Completed = 2,
