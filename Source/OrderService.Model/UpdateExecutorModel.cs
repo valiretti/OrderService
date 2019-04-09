@@ -7,5 +7,7 @@ namespace OrderService.Model
     public class UpdateExecutorModel : CreateExecutorModel
     {
         public int Id { get; set; }
+
+        public string[] ExistingPhotos { get; set; }
     }
 }

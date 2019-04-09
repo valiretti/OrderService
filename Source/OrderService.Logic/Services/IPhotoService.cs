@@ -11,8 +11,8 @@ namespace OrderService.Logic.Services
 
         Task<IEnumerable<Photo>> GetByIds(IEnumerable<int> ids);
 
-        Task DeleteAllPhotosByOrderId(int orderId);
+        Task DeletePhotosByPathsByOrderId(IEnumerable<string> existingPaths, int orderId);
 
-        Task DeletePhotosByPaths(IEnumerable<string> existingIds, int orderId);
+        Task DeletePhotosByPathsByExecutorId(IEnumerable<string> existingPaths, int executorId);
     }
 }

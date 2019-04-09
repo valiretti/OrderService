@@ -110,17 +110,13 @@ namespace OrderService.Logic.Services
 
             if (user.FirstName != model.FirstName)
             {
-                var claim = claims.FirstOrDefault(c => c.Type == JwtClaimTypes.GivenName);
-                await _manager.RemoveClaimAsync(user, claim);
-                await _manager.AddClaimAsync(user, new Claim(JwtClaimTypes.GivenName, model.FirstName));
+                await UpdateClaim(JwtClaimTypes.GivenName, model.FirstName);
                 user.FirstName = model.FirstName;
             }
 
             if (user.LastName != model.LastName)
             {
-                var claim = claims.FirstOrDefault(c => c.Type == JwtClaimTypes.FamilyName);
-                await _manager.RemoveClaimAsync(user, claim);
-                await _manager.AddClaimAsync(user, new Claim(JwtClaimTypes.FamilyName, model.LastName));
+                await UpdateClaim(JwtClaimTypes.FamilyName, model.LastName);
                 user.LastName = model.LastName;
             }
 
@@ -132,13 +128,18 @@ namespace OrderService.Logic.Services
                     throw new ValidationException($"The user with this email {model.Email} already exists");
                 }
 
-                var claim = claims.FirstOrDefault(c => c.Type == JwtClaimTypes.Email);
-                await _manager.RemoveClaimAsync(user, claim);
-                await _manager.AddClaimAsync(user, new Claim(JwtClaimTypes.Email, model.Email));
+                await UpdateClaim(JwtClaimTypes.Email, model.Email);
                 user.Email = model.Email;
             }
 
             await _manager.UpdateAsync(user);
+
+            async Task UpdateClaim(string claimType, string value)
+            {
+                var claim = claims.FirstOrDefault(c => c.Type == claimType);
+                await _manager.RemoveClaimAsync(user, claim);
+                await _manager.AddClaimAsync(user, new Claim(claimType, value));
+            }
         }
     }
 }

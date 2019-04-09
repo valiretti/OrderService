@@ -59,18 +59,18 @@ namespace OrderService.Logic.Services
             return photos;
         }
 
-        public async Task DeleteAllPhotosByOrderId(int orderId)
+        public async Task DeletePhotosByPathsByOrderId(IEnumerable<string> existingPaths, int orderId)
         {
-            var photos = await _repository.GetAll().Where(p => p.OrderId == orderId).ToListAsync();
+            var photos = await _repository.GetAll().Where(photo => !existingPaths.Contains(photo.PhotoPath) && photo.OrderId == orderId).ToListAsync();
             await DeletePhotos(photos);
         }
 
-        public async Task DeletePhotosByPaths(IEnumerable<string> existingIds, int orderId)
+        public async Task DeletePhotosByPathsByExecutorId(IEnumerable<string> existingPaths, int executorId)
         {
-            var photos = await _repository.GetAll().Where(photo => !existingIds.Contains(photo.PhotoPath) && photo.OrderId == orderId).ToListAsync();
+            var photos = await _repository.GetAll().Where(photo => !existingPaths.Contains(photo.PhotoPath) && photo.ExecutorId == executorId).ToListAsync();
             await DeletePhotos(photos);
         }
-        
+
         private async Task DeletePhotos(List<Photo> photos)
         {
             foreach (var photo in photos)

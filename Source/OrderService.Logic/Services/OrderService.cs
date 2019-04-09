@@ -30,13 +30,13 @@ namespace OrderService.Logic.Services
 
         public async Task<OrderViewModel> Create(CreateOrderModel item)
         {
-            var order = _mapper.Map<Order>(item);
-            var result = _validator.Validate(order);
+            var result = _validator.Validate(item);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
             }
 
+            var order = _mapper.Map<Order>(item);
             order.CreationDate = DateTime.UtcNow;
             order.Status = Status.Active;
 
@@ -49,31 +49,28 @@ namespace OrderService.Logic.Services
 
         public async Task Update(UpdateOrderModel item)
         {
-            var order = _orderRepository.GetAll().SingleOrDefault(o => o.Id == item.Id);
-            if (order == null)
-            {
-                throw new ValidationException("The order doesn't exist");
-            }
-
-            var newOrder = _mapper.Map<Order>(item);
-
-            var result = _validator.Validate(newOrder);
+            var result = _validator.Validate(item);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
             }
 
-            if (item.ExistingPhotos == null)
+            var order = _orderRepository.GetAll()
+                .Include(o => o.Photos)
+                .SingleOrDefault(o => o.Id == item.Id);
+            if (order == null)
             {
-                await _photoService.DeleteAllPhotosByOrderId(item.Id);
-            }
-            else
-            {
-                await _photoService.DeletePhotosByPaths(item.ExistingPhotos, int orderId);
+                throw new ValidationException("The order doesn't exist");
             }
 
-            await AddPhotos(item, newOrder);
-            _orderRepository.Update(newOrder);
+            _mapper.Map(item, order);
+            if (item.ExistingPhotos != null)
+            {
+                await _photoService.DeletePhotosByPathsByOrderId(item.ExistingPhotos, item.Id);
+            }
+
+            await AddPhotos(item, order);
+            _orderRepository.Update(order);
             await _commitProvider.SaveAsync();
         }
 
@@ -158,7 +155,7 @@ namespace OrderService.Logic.Services
             if (item.Photos != null)
             {
                 var photos = await _photoService.GetByIds(item.Photos);
-                order.Photos = new List<Photo>();
+                order.Photos = order.Photos ?? new List<Photo>();
                 foreach (var photo in photos)
                 {
                     order.Photos.Add(photo);

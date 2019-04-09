@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using OrderService.Model;
 using OrderService.Model.Entities;
 
 namespace OrderService.Logic.Validators
 {
-    public class OrderValidator : AbstractValidator<Order>
+    public class OrderValidator : AbstractValidator<CreateOrderModel>
     {
         public OrderValidator()
         {

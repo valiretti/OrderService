@@ -32,13 +32,13 @@ namespace OrderService.Logic.Services
 
         public async Task<ExecutorViewModel> Create(CreateExecutorModel item)
         {
-            var executor = _mapper.Map<Executor>(item);
-            var result = _validator.Validate(executor);
+            var result = _validator.Validate(item);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
             }
 
+            var executor = _mapper.Map<Executor>(item);
             executor.CreationDate = DateTime.UtcNow;
 
             await AddPhotos(item, executor);
@@ -52,22 +52,28 @@ namespace OrderService.Logic.Services
 
         public async Task Update(UpdateExecutorModel item)
         {
-            var executor = _repository.GetAll().SingleOrDefault(o => o.Id == item.Id);
-            if (executor == null)
-            {
-                throw new ValidationException("The executor doesn't exist");
-            }
-
-            var newExecutor = _mapper.Map<Executor>(item);
-
-            var result = _validator.Validate(newExecutor);
+            var result = _validator.Validate(item);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
             }
 
-            await AddPhotos(item, newExecutor);
-            _repository.Update(newExecutor);
+            var executor = _repository.GetAll()
+                .Include(e => e.Photos)
+                .SingleOrDefault(e => e.Id == item.Id);
+            if (executor == null)
+            {
+                throw new ValidationException("The executor doesn't exist");
+            }
+
+            _mapper.Map(item, executor);
+            if (item.ExistingPhotos != null)
+            {
+                await _photoService.DeletePhotosByPathsByOrderId(item.ExistingPhotos, item.Id);
+            }
+
+            await AddPhotos(item, executor);
+            _repository.Update(executor);
             await _commitProvider.SaveAsync();
         }
 
@@ -121,7 +127,7 @@ namespace OrderService.Logic.Services
             if (item.Photos != null)
             {
                 var photos = await _photoService.GetByIds(item.Photos);
-                executor.Photos = new List<Photo>();
+                executor.Photos = executor.Photos ?? new List<Photo>();
                 foreach (var photo in photos)
                 {
                     executor.Photos.Add(photo);
