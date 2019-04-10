@@ -81,15 +81,18 @@ namespace OrderService.Logic.Services
 
         public async Task<OrderPage> GetPage(int pageNumber, int pageSize)
         {
+
             var orders = await _orderRepository.GetAll()
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
                 .Where(o => o.OrderStatus == OrderStatus.Active && o.ExecutorId == null)
-                 .OrderByDescending(x => x.CreationDate)
-                 .Skip(pageNumber * pageSize)
-                 .Take(pageSize)
-                 .ToListAsync();
-            var totalCount = await _orderRepository.GetAll().CountAsync();
+                .OrderByDescending(x => x.CreationDate)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            var totalCount = await _orderRepository.GetAll()
+                .Where(o => o.OrderStatus == OrderStatus.Active && o.ExecutorId == null)
+                .CountAsync();
 
             return new OrderPage
             {
@@ -120,27 +123,15 @@ namespace OrderService.Logic.Services
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-            var totalCount = await _orderRepository.GetAll().Where(x => x.CustomerUserId == customerId).CountAsync();
+            var totalCount = await _orderRepository.GetAll()
+                .Where(x => x.CustomerUserId == customerId)
+                .CountAsync();
 
             return new OrderPage
             {
                 Orders = _mapper.Map<IEnumerable<OrderPageViewModel>>(orders),
                 TotalCount = totalCount
             };
-        }
-
-        public async Task AppointExecutor(int executorId, int orderId, string customerId)
-        {
-            var order = await _orderRepository.GetAll()
-                .SingleOrDefaultAsync(o => o.CustomerUserId == customerId && o.Id == orderId);
-            if (order == null)
-            {
-                throw new ValidationException("The order doesn't exist");
-            }
-
-            order.OrderStatus = OrderStatus.Confirmed;
-            order.ExecutorId = executorId;
-            await _commitProvider.SaveAsync();
         }
 
         public async Task Delete(int id)

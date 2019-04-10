@@ -74,14 +74,6 @@ namespace OrderService.Website.Controllers
             return Ok(orders);
         }
 
-        [HttpPost("{id:int:min(1)}/appointExecutor")]
-        public async Task<IActionResult> AppointExecutor(int id, [FromQuery] int executorId)
-        {
-            await _orderService.AppointExecutor(executorId, id, User.GetSubjectId());
-
-            return NoContent();
-        }
-
         private bool CheckPageParameters(int page, int count, out IActionResult actionResult)
         {
             if (page < 0)

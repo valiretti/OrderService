@@ -8,9 +8,13 @@ namespace OrderService.Logic.Services
         Task<RequestViewModel> CreateExecutorRequest(CreateRequestModel request);
         Task<RequestViewModel> CreateCustomerRequest(CreateRequestModel request);
 
-        Task Update(UpdateRequestModel request);
+        Task MarkExecutorRequestAccepted(int requestId, string customerId);
+        Task MarkCustomerRequestAccepted(int requestId);
+
+        Task<RequestViewModel> GetExecutorRequest(int id);
+        Task<RequestViewModel> GetCustomerRequest(int id);
 
         Task<RequestPage> GetNewExecutorRequests(int pageNumber, int pageSize, string userId);
-        Task<RequestPage> GetCustomerRequests(int pageNumber, int pageSize, string userId);
+        Task<RequestPage> GetNewCustomerRequests(int pageNumber, int pageSize, string userId);
     }
 }

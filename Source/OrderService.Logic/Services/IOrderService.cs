@@ -15,8 +15,6 @@ namespace OrderService.Logic.Services
 
         Task<OrderPage> GetPageByCustomerId(int pageNumber, int pageSize, string customerId);
 
-        Task AppointExecutor(int executorId, int orderId, string customerId);
-
         Task Delete(int id);
     }
 }

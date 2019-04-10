@@ -12,15 +12,10 @@ namespace OrderService.Logic.Profiles
         public RequestProfile()
         {
             CreateMap<CreateRequestModel, CustomerRequest>();
-
             CreateMap<CreateRequestModel, ExecutorRequest>();
 
             CreateMap<CustomerRequest, RequestViewModel>();
-
             CreateMap<ExecutorRequest, RequestViewModel>();
-
-
-
         }
     }
 }

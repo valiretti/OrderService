@@ -1,4 +1,6 @@
-﻿namespace OrderService.Model.Entities
+﻿using System;
+
+namespace OrderService.Model.Entities
 {
     public class CustomerRequest
     {
@@ -13,5 +15,7 @@
         public RequestStatus RequestStatus { get; set; }
 
         public string Message { get; set; }
+
+        public DateTime CreationDate { get; set; }
     }
 }
