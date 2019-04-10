@@ -10,7 +10,7 @@ namespace OrderService.Logic.Services
 
         Task Update(UpdateRequestModel request);
 
-        Task<RequestPage> GetExecutorRequests(int pageNumber, int pageSize, int executorId);
-        Task<RequestPage> GetCustomerRequests(int pageNumber, int pageSize, string customerId);
+        Task<RequestPage> GetNewExecutorRequests(int pageNumber, int pageSize, string userId);
+        Task<RequestPage> GetCustomerRequests(int pageNumber, int pageSize, string userId);
     }
 }

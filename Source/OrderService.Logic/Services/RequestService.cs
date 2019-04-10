@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using OrderService.DataProvider.Repositories;
 using OrderService.Model;
 using OrderService.Model.Entities;
@@ -53,12 +55,19 @@ namespace OrderService.Logic.Services
             throw new NotImplementedException();
         }
 
-        public Task<RequestPage> GetExecutorRequests(int pageNumber, int pageSize, int executorId)
+        public Task<RequestPage> GetNewExecutorRequests(int pageNumber, int pageSize, string userId)
         {
+            var requests = _executorRepository.GetAll()
+                .Include(r => r.Executor)
+                .Include(r => r.Order)
+                .Where(r => r.Order.CustomerUserId == userId && r.RequestStatus == RequestStatus.New)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
             throw new NotImplementedException();
         }
 
-        public Task<RequestPage> GetCustomerRequests(int pageNumber, int pageSize, string customerId)
+        public Task<RequestPage> GetCustomerRequests(int pageNumber, int pageSize, string userId)
         {
             throw new NotImplementedException();
         }
