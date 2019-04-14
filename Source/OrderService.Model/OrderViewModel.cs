@@ -31,6 +31,6 @@ namespace OrderService.Model
 
         public string WorkTypeName { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }

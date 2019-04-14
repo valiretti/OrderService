@@ -11,6 +11,9 @@ namespace OrderService.Logic.Services
         Task MarkExecutorRequestAccepted(int requestId, string customerId);
         Task MarkCustomerRequestAccepted(int requestId);
 
+        Task RejectExecutorRequest(int requestId, string customerId);
+        Task RejectCustomerRequest(int requestId);
+
         Task<RequestViewModel> GetExecutorRequest(int id);
         Task<RequestViewModel> GetCustomerRequest(int id);
 

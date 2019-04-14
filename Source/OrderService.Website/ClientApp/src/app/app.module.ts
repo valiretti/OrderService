@@ -30,6 +30,9 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ExecutorComponent } from './components/executor/executor/executor.component';
 import { AccountComponent } from './components/account/account/account.component';
 import { AccountOrdersComponent } from './components/account/account-orders/account-orders.component';
+import { RequestComponent } from './components/account/request/request.component';
+import { IncomingExecutorRequestComponent } from './components/account/incoming-executor-request/incoming-executor-request.component';
+import { IncomingCustomerRequestComponent } from './components/account/incoming-customer-request/incoming-customer-request.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import { AccountOrdersComponent } from './components/account/account-orders/acco
     OrderComponent,
     ExecutorComponent,
     AccountComponent,
-    AccountOrdersComponent
+    AccountOrdersComponent,
+    RequestComponent,
+    IncomingExecutorRequestComponent,
+    IncomingCustomerRequestComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

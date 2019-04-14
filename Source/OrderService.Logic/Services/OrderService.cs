@@ -43,7 +43,7 @@ namespace OrderService.Logic.Services
 
             var order = _mapper.Map<Order>(item);
             order.CreationDate = DateTime.UtcNow;
-            order.OrderStatus = OrderStatus.Active;
+            order.Status = OrderStatus.Active;
 
             await AddPhotos(item, order);
             await _orderRepository.Create(order);
@@ -81,17 +81,16 @@ namespace OrderService.Logic.Services
 
         public async Task<OrderPage> GetPage(int pageNumber, int pageSize)
         {
-
             var orders = await _orderRepository.GetAll()
                 .Include(o => o.Photos)
                 .Include(o => o.WorkType)
-                .Where(o => o.OrderStatus == OrderStatus.Active && o.ExecutorId == null)
+                .Where(o => o.Status == OrderStatus.Active && o.ExecutorId == null)
                 .OrderByDescending(x => x.CreationDate)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
             var totalCount = await _orderRepository.GetAll()
-                .Where(o => o.OrderStatus == OrderStatus.Active && o.ExecutorId == null)
+                .Where(o => o.Status == OrderStatus.Active && o.ExecutorId == null)
                 .CountAsync();
 
             return new OrderPage

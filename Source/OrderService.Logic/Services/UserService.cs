@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OrderService.Model;
 using OrderService.Model.Entities;
 
@@ -144,7 +145,9 @@ namespace OrderService.Logic.Services
 
         public async Task<int> GetExecutorIdByUserId(string userId)
         {
-            var user = await _manager.FindByIdAsync(userId);
+            var user = await _manager.Users
+                .Include(u => u.Executor)
+                .FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
             {
                 throw new ValidationException($"The user doesn't exist");

@@ -42,7 +42,8 @@ namespace OrderService.Logic.Services
             var executorId = await _userService.GetExecutorIdByUserId(request.UserId);
             request.ExecutorId = executorId;
             var executorRequest = _mapper.Map<ExecutorRequest>(request);
-            executorRequest.RequestStatus = RequestStatus.New;
+            executorRequest.Status = RequestStatus.New;
+            executorRequest.CreationDate = DateTime.UtcNow;
             await _executorRequestRepository.Create(executorRequest);
             await _commitProvider.SaveAsync();
 
@@ -52,7 +53,8 @@ namespace OrderService.Logic.Services
         public async Task<RequestViewModel> CreateCustomerRequest(CreateRequestModel request)
         {
             var customerRequest = _mapper.Map<CustomerRequest>(request);
-            customerRequest.RequestStatus = RequestStatus.New;
+            customerRequest.Status = RequestStatus.New;
+            customerRequest.Status = RequestStatus.New;
             await _customerRequestRepository.Create(customerRequest);
             await _commitProvider.SaveAsync();
 
@@ -74,8 +76,8 @@ namespace OrderService.Logic.Services
                 throw new ValidationException("The order doesn't exist");
             }
 
-            request.RequestStatus = RequestStatus.Accepted;
-            order.OrderStatus = OrderStatus.Confirmed;
+            request.Status = RequestStatus.Accepted;
+            order.Status = OrderStatus.Confirmed;
             order.ExecutorId = request.ExecutorId;
             await _commitProvider.SaveAsync();
         }
@@ -94,9 +96,46 @@ namespace OrderService.Logic.Services
                 throw new ValidationException("The order doesn't exist");
             }
 
-            request.RequestStatus = RequestStatus.Accepted;
-            order.OrderStatus = OrderStatus.Confirmed;
+            request.Status = RequestStatus.Accepted;
+            order.Status = OrderStatus.Confirmed;
             order.ExecutorId = request.ExecutorId;
+            await _commitProvider.SaveAsync();
+        }
+
+        public async Task RejectExecutorRequest(int requestId, string customerId)
+        {
+            var request = await _executorRequestRepository.GetAll().FirstOrDefaultAsync(r => r.Id == requestId);
+            if (request == null)
+            {
+                throw new ValidationException("The request doesn't exist");
+            }
+
+            var order = await _orderRepository.GetAll()
+                .SingleOrDefaultAsync(o => o.CustomerUserId == customerId && o.Id == request.OrderId);
+            if (order == null)
+            {
+                throw new ValidationException("The order doesn't exist");
+            }
+
+            request.Status = RequestStatus.Rejected;
+            await _commitProvider.SaveAsync();
+        }
+
+        public async Task RejectCustomerRequest(int requestId)
+        {
+            var request = await _customerRequestRepository.GetAll().FirstOrDefaultAsync(r => r.Id == requestId);
+            if (request == null)
+            {
+                throw new ValidationException("The request doesn't exist");
+            }
+            var order = await _orderRepository.GetAll()
+                .SingleOrDefaultAsync(o => o.Id == request.OrderId);
+            if (order == null)
+            {
+                throw new ValidationException("The order doesn't exist");
+            }
+
+            request.Status = RequestStatus.Rejected;
             await _commitProvider.SaveAsync();
         }
 
@@ -114,6 +153,7 @@ namespace OrderService.Logic.Services
             var request = await _customerRequestRepository.GetAll()
                 .Include(r => r.Executor)
                 .Include(r => r.Order)
+                .Include(r => r.Order.Customer)
                 .SingleOrDefaultAsync(r => r.Id == id);
             return request == null ? null : _mapper.Map<RequestViewModel>(request);
         }
@@ -123,13 +163,13 @@ namespace OrderService.Logic.Services
             var requests = await _executorRequestRepository.GetAll()
                 .Include(r => r.Executor)
                 .Include(r => r.Order)
-                .Where(r => r.Order.CustomerUserId == userId && r.RequestStatus == RequestStatus.New)
+                .Where(r => r.Order.CustomerUserId == userId && r.Status == RequestStatus.New)
                 .OrderByDescending(x => x.CreationDate)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
             var totalCount = await _executorRequestRepository.GetAll()
-                .Where(r => r.Order.CustomerUserId == userId && r.RequestStatus == RequestStatus.New)
+                .Where(r => r.Order.CustomerUserId == userId && r.Status == RequestStatus.New)
                 .CountAsync();
 
             return new RequestPage
@@ -145,13 +185,13 @@ namespace OrderService.Logic.Services
             var requests = await _customerRequestRepository.GetAll()
                 .Include(r => r.Executor)
                 .Include(r => r.Order)
-                .Where(r => r.ExecutorId == executorId && r.RequestStatus == RequestStatus.New)
+                .Where(r => r.ExecutorId == executorId && r.Status == RequestStatus.New)
                 .OrderByDescending(x => x.CreationDate)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
             var totalCount = await _customerRequestRepository.GetAll()
-                .Where(r => r.ExecutorId == executorId && r.RequestStatus == RequestStatus.New)
+                .Where(r => r.ExecutorId == executorId && r.Status == RequestStatus.New)
                 .CountAsync();
 
             return new RequestPage

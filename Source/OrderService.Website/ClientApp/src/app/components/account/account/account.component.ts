@@ -13,6 +13,6 @@ export class AccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.router.navigate(['/account/orders']);
+   // this.router.navigate(['/account/orders']);
   }
 }

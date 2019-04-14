@@ -14,7 +14,7 @@
     <div class="col-md-3 ml-md-auto">
       <div>
         <i class="fas fa-briefcase"></i>
-        {{ order.workTypeName || "other"}}
+        {{ order.workTypeName || "other" }}
       </div>
       <div>
         <i class="fas fa-map-marker-alt"></i>
@@ -23,6 +23,33 @@
       <div>
         <i class="far fa-clock"></i>
         {{ "Deadline: " + ((order.finishDate | date: "MM.d.y") || "none") }}
+      </div>
+      <div>
+        <button type="button" *ngIf="userRole == 'Executor'"
+          class="btn btn-outline-secondary"
+          (click)="displayform()">
+          Send request
+        </button>
+        <form
+          *ngIf="displayForm"
+          [formGroup]="requestForm"
+          (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label class="control-label" for="message">
+              Leave some information for the customer
+            </label>
+            <div>
+              <textarea
+                type="text"
+                formControlName="message"
+                class="form-control input-md"
+              ></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Send</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

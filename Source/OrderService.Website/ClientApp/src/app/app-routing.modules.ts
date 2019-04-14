@@ -1,3 +1,6 @@
+import { IncomingCustomerRequestComponent } from './components/account/incoming-customer-request/incoming-customer-request.component';
+import { IncomingExecutorRequestComponent } from './components/account/incoming-executor-request/incoming-executor-request.component';
+import { RequestComponent } from './components/account/request/request.component';
 import { AccountOrdersComponent } from './components/account/account-orders/account-orders.component';
 import { AccountComponent } from './components/account/account/account.component';
 import { ExecutorComponent } from './components/executor/executor/executor.component';
@@ -29,7 +32,15 @@ const routes: Routes = [
   { path: 'account/create', component: CreateAccountComponent },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard],
   children: [
-    { path: 'orders', component: AccountOrdersComponent }
+    { path: '', redirectTo: 'orders', pathMatch: 'full'},
+    { path: 'orders', component: AccountOrdersComponent },
+    { path: 'requests', component: RequestComponent,
+  children: [
+    { path: 'incoming/executor', component: IncomingExecutorRequestComponent },
+    { path: 'incoming/customer', component: IncomingCustomerRequestComponent }
+
+  ] },
+
   ]
  },
 

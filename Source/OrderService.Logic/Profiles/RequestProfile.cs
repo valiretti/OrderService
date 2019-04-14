@@ -14,8 +14,13 @@ namespace OrderService.Logic.Profiles
             CreateMap<CreateRequestModel, CustomerRequest>();
             CreateMap<CreateRequestModel, ExecutorRequest>();
 
-            CreateMap<CustomerRequest, RequestViewModel>();
-            CreateMap<ExecutorRequest, RequestViewModel>();
+            CreateMap<CustomerRequest, RequestViewModel>()
+                .ForMember(x => x.ExecutorName, opt => opt.MapFrom(x => x.Executor.OrganizationName))
+                .ForMember(x => x.OrderName, opt => opt.MapFrom(x => x.Order.Name))
+                .ForMember(x => x.CustomerName, opt => opt.MapFrom(x => $"{x.Order.Customer.FirstName} {x.Order.Customer.LastName}")); 
+            CreateMap<ExecutorRequest, RequestViewModel>()
+                .ForMember(x => x.ExecutorName, opt => opt.MapFrom(x => x.Executor.OrganizationName))
+                .ForMember(x => x.OrderName, opt => opt.MapFrom(x => x.Order.Name));
         }
     }
 }

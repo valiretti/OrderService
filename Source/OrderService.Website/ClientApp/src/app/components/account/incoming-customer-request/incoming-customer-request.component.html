@@ -1,0 +1,59 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Customer</th>
+      <th scope="col">Order</th>
+      <th scope="col">Message</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let el of requests.requests; let index = index">
+      <th scope="row">{{ index + 1 }}</th>
+      <td>
+        {{ el.customerName }}
+      </td>
+      <td>
+        <a routerLink="/orders/{{ el.orderId }}">
+          {{ el.orderName }}
+        </a>
+      </td>
+      <td>{{ el.message }}</td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="accept(el.id)"
+        >
+          Accept
+        </button>
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="reject(el.id)"
+        >
+          Reject
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<pagination
+  *ngIf="totalCount > pageSize"
+  class="msg-paging"
+  [totalItems]="totalCount"
+  [itemsPerPage]="pageSize"
+  [maxSize]="8"
+  [(ngModel)]="page"
+  [disabled]="isLoading"
+  (pageChanged)="loadRequests($event.page)"
+  pageBtnClass="msg-page-item"
+  previousText="🡠"
+  nextText="🡢"
+>
+</pagination>

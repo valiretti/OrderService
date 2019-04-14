@@ -9,7 +9,7 @@ namespace OrderService.Model
 
         public DateTime CreationDate { get; set; }
 
-        public DateTime FinishDate { get; set; }
+        public DateTime? FinishDate { get; set; }
 
         public string Location { get; set; }
 
@@ -23,6 +23,6 @@ namespace OrderService.Model
 
         public string WorkTypeName { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }

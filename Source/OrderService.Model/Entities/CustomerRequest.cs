@@ -12,7 +12,7 @@ namespace OrderService.Model.Entities
         public int OrderId { get; set; }
         public Order Order { get; set; }
 
-        public RequestStatus RequestStatus { get; set; }
+        public RequestStatus Status { get; set; }
 
         public string Message { get; set; }
 

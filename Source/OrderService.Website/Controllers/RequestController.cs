@@ -56,10 +56,24 @@ namespace OrderService.Website.Controllers
             return NoContent();
         }
 
+        [HttpPost("executor/{id:int:min(1)}/reject")]
+        public async Task<IActionResult> RejectExecutorRequest(int id)
+        {
+            await _requestService.RejectExecutorRequest(id, User.GetSubjectId());
+            return NoContent();
+        }
+
         [HttpPost("customer/{id:int:min(1)}/accept")]
         public async Task<IActionResult> AcceptCustomerRequest(int id)
         {
             await _requestService.MarkCustomerRequestAccepted(id);
+            return NoContent();
+        }
+
+        [HttpPost("customer/{id:int:min(1)}/reject")]
+        public async Task<IActionResult> RejectCustomerRequest(int id)
+        {
+            await _requestService.RejectCustomerRequest(id);
             return NoContent();
         }
 

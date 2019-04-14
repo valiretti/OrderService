@@ -1,4 +1,4 @@
-import { Status } from './status';
+import { OrderStatus } from './orderStatus';
 
 export class Order {
     id?: number;
@@ -14,5 +14,5 @@ export class Order {
     workTypeName: string;
     customerPhoneNumber?: string;
     photoPaths?: string[];
-    status: Status;
+    status: OrderStatus;
 }

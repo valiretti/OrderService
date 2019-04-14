@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row justify-content-center text-center">
+    <div class="col-4">Incoming requests</div>
+    <div class="col-4">Outgoing requests</div>
+  </div>
+  <div class="row justify-content-center text-center">
+    <div class="col-4">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <a
+          routerLink="incoming/customer"
+          routerLinkActive="active"
+          class="btn btn-outline-secondary"
+          role="button"
+          aria-pressed="true"
+          >Customer</a
+        >
+        <a
+          routerLink="incoming/executor"
+          routerLinkActive="active"
+          class="btn btn-outline-secondary"
+          role="button"
+          aria-pressed="true"
+          >Executor</a
+        >
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <a
+          href="#"
+          routerLinkActive="active"
+          class="btn btn-outline-secondary"
+          role="button"
+          aria-pressed="true"
+          >Customer</a
+        >
+        <a
+          href="#"
+          routerLinkActive="active"
+          class="btn btn-outline-secondary"
+          role="button"
+          aria-pressed="true"
+          >Executor</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<div class="request">
+  <router-outlet></router-outlet>
+</div>
